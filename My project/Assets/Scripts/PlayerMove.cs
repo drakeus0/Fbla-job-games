@@ -2,49 +2,44 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMove : MonoBehaviour
+public class TopDownPlayerMove : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
+    public float rotationSpeed = 10f; // How fast player faces movement direction
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
 
     private CharacterController controller;
-    private Vector2 moveInput;
     private float yVelocity = 0f;
-    private float yaw;
-    private float pitch;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-
-        yaw = transform.eulerAngles.y;
     }
 
     void Update()
     {
-        // -------------------
-        // Mouse Look
-        // -------------------
-        Vector2 mouseDelta = Vector2.zero;
-        if (Mouse.current != null)
+        // --- Input ---
+        Vector3 inputDir = Vector3.zero;
+        if (Keyboard.current.wKey.isPressed) inputDir += Vector3.forward;
+        if (Keyboard.current.sKey.isPressed) inputDir += Vector3.back;
+        if (Keyboard.current.aKey.isPressed) inputDir += Vector3.left;
+        if (Keyboard.current.dKey.isPressed) inputDir += Vector3.right;
+
+        inputDir = inputDir.normalized; // Normalize for diagonal movement
+
+        // --- Rotation: face movement direction ---
+        if (inputDir.sqrMagnitude > 0.001f)
         {
-            mouseDelta.x = Mouse.current.delta.x.ReadValue();
-            mouseDelta.y = Mouse.current.delta.y.ReadValue();
+            Quaternion targetRot = Quaternion.LookRotation(inputDir, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
         }
 
-        transform.rotation = Quaternion.Euler(0, yaw, 0);
+        // --- Movement ---
+        Vector3 move = inputDir * moveSpeed;
 
-        moveInput.x = Keyboard.current.dKey.isPressed ? 1 : Keyboard.current.aKey.isPressed ? -1 : 0;
-        moveInput.y = Keyboard.current.wKey.isPressed ? 1 : Keyboard.current.sKey.isPressed ? -1 : 0;
-
-        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        Vector3 velocity = move * moveSpeed;
-
-        // -------------------
-        // Gravity & Jump
-        // -------------------
+        // --- Gravity & Jump ---
         if (controller.isGrounded)
         {
             yVelocity = -1f;
@@ -56,8 +51,8 @@ public class PlayerMove : MonoBehaviour
             yVelocity += gravity * Time.deltaTime;
         }
 
-        velocity.y = yVelocity;
+        move.y = yVelocity;
 
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(move * Time.deltaTime);
     }
 }
