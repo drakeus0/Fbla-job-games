@@ -32,7 +32,7 @@ public class ChangeScene : MonoBehaviour
         }
         if (distance < 2 && Keyboard.current.eKey.isPressed)
         {
-            SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+            SceneManager.LoadScene(scene);
         }
     }
 }
