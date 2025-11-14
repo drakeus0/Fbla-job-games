@@ -13,6 +13,9 @@ public class TopDownPlayerMove : MonoBehaviour
     private CharacterController controller;
     private float yVelocity = 0f;
 
+    //animator
+    private Animator animator;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -28,6 +31,8 @@ public class TopDownPlayerMove : MonoBehaviour
         if (Keyboard.current.dKey.isPressed) inputDir += Vector3.right;
 
         inputDir = inputDir.normalized; // Normalize for diagonal movement
+
+
 
         // --- Rotation: face movement direction ---
         if (inputDir.sqrMagnitude > 0.001f)
