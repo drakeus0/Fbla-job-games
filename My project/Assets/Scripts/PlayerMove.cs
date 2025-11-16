@@ -19,6 +19,7 @@ public class TopDownPlayerMove : MonoBehaviour
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -32,12 +33,20 @@ public class TopDownPlayerMove : MonoBehaviour
 
         inputDir = inputDir.normalized; // Normalize for diagonal movement
 
-
+        //check for player movement
+        if (inputDir == Vector3.zero)
+        {
+            animator.SetBool("Walking", false);
+        }
+        else
+        {
+            animator.SetBool("Walking", true);
+        }
 
         // --- Rotation: face movement direction ---
         if (inputDir.sqrMagnitude > 0.001f)
         {
-            Quaternion targetRot = Quaternion.LookRotation(inputDir, Vector3.up);
+            Quaternion targetRot = Quaternion.LookRotation(-inputDir, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
         }
 
