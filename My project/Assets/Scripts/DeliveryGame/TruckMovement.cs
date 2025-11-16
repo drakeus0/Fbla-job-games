@@ -20,22 +20,19 @@ public class SimpleCarController : MonoBehaviour
     [SerializeField] private Transform backLeftTransform;
 
     [Header("Settings")]
-    public float acceleration = 5000f;       // Cartoonish acceleration
-    public float brakeForce = 8000f;         // Strong braking
-    public float maxTurnAngle = 40f;         // Exaggerated turning
-    public float maxSpeed = 55f;             // m/s (~200 km/h)
-    public float reverseSpeedMultiplier = 0.5f; // half speed in reverse
-    public float turnLeanAngle = 10f;        // Visual tilt when turning
+    public float acceleration = 3000f;
+    public float brakeForce = 8000f;
+    public float maxTurnAngle = 40f;
+    public float maxSpeed = 55f;
+    public float reverseSpeedMultiplier = 1f;
+    public float turnLeanAngle = 10f;
 
     private float currentAcceleration = 0f;
     private float currentTurnAngle = 0f;
 
     private void Start()
     {
-        if (carRB == null)
-            carRB = GetComponent<Rigidbody>();
-
-        // Lower center of mass for stability
+        if (carRB == null) carRB = GetComponent<Rigidbody>();
         carRB.centerOfMass = new Vector3(0, -0.5f, 0);
     }
 
@@ -46,55 +43,96 @@ public class SimpleCarController : MonoBehaviour
         float horizontal = 0f;
 
         if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-            vertical -= 1f; // W = forward
+            vertical += 1f; // W = forward
         if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-            vertical += 1f; // S = backward
+            vertical -= 1f; // S = brake/reverse
+
         if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
             horizontal += 1f;
         if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
             horizontal -= 1f;
 
-        // Normalize diagonal input
         Vector2 input = new Vector2(horizontal, vertical);
-        if (input.magnitude > 1f)
-            input.Normalize();
+        if (input.magnitude > 1f) input.Normalize();
 
         // --- Steering ---
         currentTurnAngle = maxTurnAngle * input.x;
         frontLeft.steerAngle = currentTurnAngle;
         frontRight.steerAngle = currentTurnAngle;
 
-        // --- Motor torque ---
-        currentAcceleration = input.y * acceleration;
+        // --- Motor & Braking ---
+        Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0, carRB.linearVelocity.z);
 
-        // Automatic reverse if holding S after stop
-        Vector3 horizontalVelocity = new Vector3(carRB.linearVelocity.x, 0f, carRB.linearVelocity.z);
-        if (Keyboard.current.sKey.isPressed && horizontalVelocity.magnitude < 0.1f)
+        // Determine if car is essentially stopped
+        bool isStopped = flatVelocity.magnitude < 0.5f;
+        bool reversing = false;
+        Debug.Log(reversing);
+        Debug.Log(flatVelocity.magnitude);
+        // --- Acceleration logic ---
+        if (Keyboard.current.sKey.isPressed && isStopped)
         {
-            currentAcceleration = -acceleration * reverseSpeedMultiplier;
+            // Start reversing
+            reversing = true;
+        }
+        else if (Keyboard.current.sKey.isPressed)
+        {
+            // Brake while moving forward
+            currentAcceleration = 0f;
+            ApplyBrakes(brakeForce);
+        }
+        else if (Keyboard.current.wKey.isPressed)
+        {
+            // Accelerate forward normally
+            currentAcceleration = acceleration;
+            ApplyBrakes(0f);
+            reversing = false;
+        }
+        else
+        {
+            currentAcceleration = 0f;
+            ApplyBrakes(0f);
+            reversing = false;
         }
 
-        frontLeft.motorTorque = currentAcceleration;
-        frontRight.motorTorque = currentAcceleration;
+        if (reversing)
+        {
+            currentAcceleration = acceleration * reverseSpeedMultiplier;
+            ApplyBrakes(0f);
+        }
+
+        // Apply torque
+        backLeft.motorTorque = -currentAcceleration;
+        backRight.motorTorque = -currentAcceleration;
 
         // --- Limit speed ---
-        Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0f, carRB.linearVelocity.z);
         if (flatVelocity.magnitude > maxSpeed)
         {
-            flatVelocity = flatVelocity.normalized * maxSpeed;
-            carRB.linearVelocity = new Vector3(flatVelocity.x, carRB.linearVelocity.y, flatVelocity.z);
+            Vector3 limited = flatVelocity.normalized * maxSpeed;
+            carRB.linearVelocity = new Vector3(limited.x, carRB.linearVelocity.y, limited.z);
         }
 
-        // --- Update wheel visuals ---
+        // --- Update wheels ---
         UpdateWheel(frontLeft, frontLeftTransform);
         UpdateWheel(frontRight, frontRightTransform);
         UpdateWheel(backLeft, backLeftTransform);
         UpdateWheel(backRight, backRightTransform);
 
-        // --- Visual lean for cartoon effect ---
-        float targetLean = -input.x * turnLeanAngle; // tilt opposite direction of turn
+        // --- Visual lean ---
+        float targetLean = -input.x * turnLeanAngle;
         Quaternion leanRotation = Quaternion.Euler(0f, 0f, targetLean);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f) * leanRotation, Time.deltaTime * 3f);
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f) * leanRotation,
+            Time.deltaTime * 4f
+        );
+    }
+
+    private void ApplyBrakes(float brake)
+    {
+        frontLeft.brakeTorque = brake;
+        frontRight.brakeTorque = brake;
+        backLeft.brakeTorque = brake;
+        backRight.brakeTorque = brake;
     }
 
     private void UpdateWheel(WheelCollider col, Transform trans)
@@ -103,13 +141,9 @@ public class SimpleCarController : MonoBehaviour
         Quaternion rot;
         col.GetWorldPose(out pos, out rot);
 
-        // Smooth position
         trans.position = Vector3.Lerp(trans.position, pos, Time.deltaTime * 10f);
-
-        // Smooth rotation
         trans.rotation = Quaternion.Slerp(trans.rotation, rot, Time.deltaTime * 10f);
 
-        // Rotate around axle based on wheel RPM
         float rotationAngle = col.rpm * 6f * Time.deltaTime;
         trans.Rotate(Vector3.right, rotationAngle, Space.Self);
     }
