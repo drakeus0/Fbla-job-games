@@ -119,7 +119,7 @@ public class SimpleCarController : MonoBehaviour
         UpdateWheel(backRight, backRightTransform);
 
         // --- Visual lean ---
-        if (flatVelocity.magnitude < 5f)
+        if (flatVelocity.magnitude > 5f)
         {
         float targetLean = -input.x * turnLeanAngle;
         Quaternion leanRotation = Quaternion.Euler(0f, 0f, targetLean);
