@@ -119,6 +119,8 @@ public class SimpleCarController : MonoBehaviour
         UpdateWheel(backRight, backRightTransform);
 
         // --- Visual lean ---
+        if (flatVelocity.magnitude < 5f)
+        {
         float targetLean = -input.x * turnLeanAngle;
         Quaternion leanRotation = Quaternion.Euler(0f, 0f, targetLean);
         transform.rotation = Quaternion.Slerp(
@@ -126,6 +128,7 @@ public class SimpleCarController : MonoBehaviour
             Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f) * leanRotation,
             Time.deltaTime * 4f
         );
+        }
     }
 
     private void ApplyBrakes(float brake)
