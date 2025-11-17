@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -66,14 +67,12 @@ public class SimpleCarController : MonoBehaviour
         Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0, carRB.linearVelocity.z);
 
         // Determine if car is essentially stopped
-        Debug.Log(reversing);
         Debug.Log(flatVelocity.magnitude);
         // --- Acceleration logic ---
         if (Keyboard.current.sKey.isPressed && flatVelocity.magnitude < 2f)
         {
             // Start reversing
             reversing = true;
-            Debug.Log("thjios ran");
         }
         else if (Keyboard.current.sKey.isPressed)
         {
@@ -85,7 +84,13 @@ public class SimpleCarController : MonoBehaviour
         {
             // Accelerate forward normally
             currentAcceleration = acceleration;
-            ApplyBrakes(0f);
+            if (reversing == true)
+            {
+                ApplyBrakes(brakeForce);
+            } else
+            {
+                ApplyBrakes(0f);
+            }
            reversing = false;
         }
         else
