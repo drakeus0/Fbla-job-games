@@ -30,6 +30,8 @@ public class SimpleCarController : MonoBehaviour
     private float currentAcceleration = 0f;
     private float currentTurnAngle = 0f;
 
+    bool reversing = false;
+
     private void Start()
     {
         if (carRB == null) carRB = GetComponent<Rigidbody>();
@@ -64,15 +66,14 @@ public class SimpleCarController : MonoBehaviour
         Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0, carRB.linearVelocity.z);
 
         // Determine if car is essentially stopped
-        bool isStopped = flatVelocity.magnitude < 0.5f;
-        bool reversing = false;
         Debug.Log(reversing);
         Debug.Log(flatVelocity.magnitude);
         // --- Acceleration logic ---
-        if (Keyboard.current.sKey.isPressed && isStopped)
+        if (Keyboard.current.sKey.isPressed && flatVelocity.magnitude < 2f)
         {
             // Start reversing
             reversing = true;
+            Debug.Log("thjios ran");
         }
         else if (Keyboard.current.sKey.isPressed)
         {
@@ -85,7 +86,7 @@ public class SimpleCarController : MonoBehaviour
             // Accelerate forward normally
             currentAcceleration = acceleration;
             ApplyBrakes(0f);
-            reversing = false;
+           reversing = false;
         }
         else
         {
@@ -96,7 +97,7 @@ public class SimpleCarController : MonoBehaviour
 
         if (reversing)
         {
-            currentAcceleration = acceleration * reverseSpeedMultiplier;
+            currentAcceleration = -acceleration * reverseSpeedMultiplier;
             ApplyBrakes(0f);
         }
 
