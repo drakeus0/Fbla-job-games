@@ -67,7 +67,6 @@ public class SimpleCarController : MonoBehaviour
         Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0, carRB.linearVelocity.z);
 
         // Determine if car is essentially stopped
-        Debug.Log(flatVelocity.magnitude);
         // --- Acceleration logic ---
         if (Keyboard.current.sKey.isPressed && flatVelocity.magnitude < 2f)
         {
