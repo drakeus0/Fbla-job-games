@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 53139705}
   m_Layer: 0
-  m_Name: BackRight
+  m_Name: FrontLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,8 +238,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54958056}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.099784374, y: 0.69514066, z: -0.09837706, w: 0.7050848}
-  m_LocalPosition: {x: -256.3382, y: 10.93, z: 63.175766}
+  m_LocalRotation: {x: 0.10670006, y: -0.7088036, z: 0.109833054, w: 0.688585}
+  m_LocalPosition: {x: -180.69882, y: 13.16, z: 64.04047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -522,7 +522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 84222101}
   m_Layer: 0
-  m_Name: BackLeft
+  m_Name: FrontRIght
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1266,7 +1266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240909030}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1720,8 +1720,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.297102, y: 7.0442653, z: 17.21225}
-  m_Center: {x: 0.064629555, y: 3.5327604, z: 0.16070366}
+  m_Size: {x: 6.297102, y: 7.0442653, z: 17.738705}
+  m_Center: {x: 0.064629555, y: 3.5327604, z: -2.0570202}
 --- !u!54 &311781533
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1732,7 +1732,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1000
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1758,13 +1758,12 @@ Transform:
   m_GameObject: {fileID: 311781531}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7172622, z: -0, w: 0.6968034}
-  m_LocalPosition: {x: -238.44, y: 1.56, z: 63.43}
+  m_LocalPosition: {x: -201.79, y: 3.42, z: 63.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 319328754}
-  - {fileID: 5652768328657232855}
   - {fileID: 240909031}
+  - {fileID: 5652768328657232855}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -91.658, z: 0}
 --- !u!114 &311781535
@@ -1780,20 +1779,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCarController
   carRB: {fileID: 311781533}
-  frontRight: {fileID: 803547535}
-  frontLeft: {fileID: 378358393}
-  backRight: {fileID: 1926278013}
-  backLeft: {fileID: 684796368}
-  frontRightTransform: {fileID: 1391959730}
-  frontLeftTransform: {fileID: 2040992550}
-  backRightTransform: {fileID: 53139705}
-  backLeftTransform: {fileID: 84222101}
+  carVisual: {fileID: 5652768328657232855}
+  frontRight: {fileID: 684796368}
+  frontLeft: {fileID: 1926278013}
+  backRight: {fileID: 378358393}
+  backLeft: {fileID: 803547535}
+  frontRightTransform: {fileID: 84222101}
+  frontLeftTransform: {fileID: 53139705}
+  backRightTransform: {fileID: 2040992550}
+  backLeftTransform: {fileID: 1391959730}
   acceleration: 4000
   brakeForce: 8000
-  maxTurnAngle: 35
+  maxTurnAngle: 40
   maxSpeed: 50
   reverseSpeedMultiplier: 0.5
-  turnLeanAngle: 10
+  turnLeanAngle: 6
+  leanSpeedForFullEffect: 20
 --- !u!114 &311781536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1810,6 +1811,7 @@ MonoBehaviour:
   - {fileID: 1377870891}
   - {fileID: 299170095}
   countDown: {fileID: 574598854}
+  Deliverytime: 60
 --- !u!1 &319323998
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,8 +1873,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319328753}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 2.31, y: 1.0025496, z: -1.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1880,7 +1882,7 @@ Transform:
   - {fileID: 53139705}
   - {fileID: 84222101}
   - {fileID: 2040992550}
-  m_Father: {fileID: 311781534}
+  m_Father: {fileID: 5652768328657232855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &332124362
 GameObject:
@@ -2286,7 +2288,7 @@ GameObject:
   - component: {fileID: 378358392}
   - component: {fileID: 378358393}
   m_Layer: 0
-  m_Name: FrontLeftCollider
+  m_Name: BackRightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2884,14 +2886,14 @@ RectTransform:
   m_GameObject: {fileID: 574598852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.0402, y: 4.0402, z: 4.0402}
+  m_LocalScale: {x: 1.0043938, y: 1.0043938, z: 1.0043938}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74871656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 43, y: 592}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 2, y: -27}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &574598854
@@ -3367,7 +3369,7 @@ GameObject:
   - component: {fileID: 684796367}
   - component: {fileID: 684796368}
   m_Layer: 0
-  m_Name: BackLeftCollider
+  m_Name: FrontRightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3762,7 +3764,7 @@ GameObject:
   - component: {fileID: 803547534}
   - component: {fileID: 803547535}
   m_Layer: 0
-  m_Name: FrontRightCollider
+  m_Name: BackLeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4270,11 +4272,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFollow
   TrackerSettings:
     BindingMode: 5
-    PositionDamping: {x: 0.25, y: 0.25, z: 0.25}
+    PositionDamping: {x: 0.25, y: 0.34, z: 0.25}
     AngularDampingMode: 0
     RotationDamping: {x: 0.25, y: 0.25, z: 0.25}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 9.37, z: -17.9}
+  FollowOffset: {x: 0, y: 9.74, z: -21.1}
 --- !u!114 &932687692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4326,8 +4328,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932687690}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.099784374, y: 0.6951406, z: -0.09837706, w: 0.70508486}
-  m_LocalPosition: {x: -256.3382, y: 10.93, z: 63.175766}
+  m_LocalRotation: {x: 0.10670004, y: -0.7088036, z: 0.109833054, w: 0.688585}
+  m_LocalPosition: {x: -180.69882, y: 13.16, z: 64.04046}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4355,7 +4357,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 4.2, z: 0}
+  TargetOffset: {x: 0, y: 3.04, z: 0}
   Damping: {x: 0.25, y: 0.25}
   Lookahead:
     Enabled: 1
@@ -6119,7 +6121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1391959730}
   m_Layer: 0
-  m_Name: FrontRight
+  m_Name: BackLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8396,7 +8398,7 @@ GameObject:
   - component: {fileID: 1926278012}
   - component: {fileID: 1926278013}
   m_Layer: 0
-  m_Name: BackRightCollider
+  m_Name: FrontLeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8850,7 +8852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2040992550}
   m_Layer: 0
-  m_Name: FrontLeft
+  m_Name: BackRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9663,13 +9665,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8613615931145570956}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.157565, y: -1.0025496, z: 0.20827341}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 2.31, y: -1.0025496, z: -1.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 319328754}
   m_Father: {fileID: 311781534}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &5678914961001776040
 Transform:
   m_ObjectHideFlags: 0

@@ -23,10 +23,10 @@ public class Pickup_dropoff : MonoBehaviour
 
     private void Update()
     {
-        deliveryTimer -= Time.deltaTime;
         if (deliveryStatus == true)
-        {w
-            countDown.text = deliveryTimer.ToString();
+        {
+            deliveryTimer -= Time.deltaTime;
+            countDown.text = deliveryTimer.ToString("F2");
         }
         if ( deliveryTimer < 0 )
         {
@@ -39,7 +39,7 @@ public class Pickup_dropoff : MonoBehaviour
         if (collision.gameObject.CompareTag("PickUp") && deliveryStatus == false) {
             deliveryStatus = true;
             StartDelivery();
-            Debug.Log("Delivery Started");
+            Debug.Log(Deliverytime);
         }
         else if (collision.gameObject.CompareTag("DropOff") && deliveryStatus == true)
         {
@@ -50,7 +50,7 @@ public class Pickup_dropoff : MonoBehaviour
 
     void StartDelivery()
     {
-        GameObject randomDropoff = dropoff_Points[UnityEngine.Random.Range(0, dropoff_Points.Count-1)];
+        GameObject randomDropoff = dropoff_Points[UnityEngine.Random.Range(0, dropoff_Points.Count)];
         chosen_Dropoff = randomDropoff;
 
         randomDropoff.SetActive(true);
@@ -58,8 +58,9 @@ public class Pickup_dropoff : MonoBehaviour
     }
     void StopDelivery()
     {
-        chosen_Dropoff.SetActive(false);
-        countDown.gameObject.SetActive(false);
+            deliveryTimer = Deliverytime;
+            chosen_Dropoff.SetActive(false);
+            countDown.gameObject.SetActive(false);
     }
 
 }

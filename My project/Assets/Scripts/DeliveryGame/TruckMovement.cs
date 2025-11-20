@@ -1,4 +1,3 @@
-using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,48 +6,54 @@ public class SimpleCarController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody carRB;
+    [Tooltip("Visual root of the car (mesh). This is what will lean/tilt. Do NOT rotate the physics root to fix model orientation; rotate this mesh if needed).")]
+    [SerializeField] private Transform carVisual;
 
-    [Header("Wheel Colliders")]
+    [Header("Wheel Colliders (assign)")]
     [SerializeField] private WheelCollider frontRight;
     [SerializeField] private WheelCollider frontLeft;
     [SerializeField] private WheelCollider backRight;
     [SerializeField] private WheelCollider backLeft;
 
-    [Header("Wheel Transforms")]
+    [Header("Wheel Transforms (visual meshes)")]
     [SerializeField] private Transform frontRightTransform;
     [SerializeField] private Transform frontLeftTransform;
     [SerializeField] private Transform backRightTransform;
     [SerializeField] private Transform backLeftTransform;
 
     [Header("Settings")]
-    public float acceleration = 3000f;
-    public float brakeForce = 8000f;
-    public float maxTurnAngle = 40f;
-    public float maxSpeed = 55f;
-    public float reverseSpeedMultiplier = 1f;
-    public float turnLeanAngle = 10f;
+    public float acceleration = 3000f;        
+    public float brakeForce = 8000f;        
+    public float maxTurnAngle = 40f;          
+    public float maxSpeed = 55f;            
+    public float reverseSpeedMultiplier = 0.5f; 
+    public float turnLeanAngle = 6f;         
+    public float leanSpeedForFullEffect = 20f;  
 
-    private float currentAcceleration = 0f;
+    private float currentAcceleration = 0f;    
     private float currentTurnAngle = 0f;
+    private bool reversing = false;
 
-    bool reversing = false;
+    private void Reset()
+    {
+        carRB = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
         if (carRB == null) carRB = GetComponent<Rigidbody>();
-        carRB.centerOfMass = new Vector3(0, -0.5f, 0);
+        carRB.centerOfMass = new Vector3(0f, -0.5f, 0f);
     }
 
     private void FixedUpdate()
     {
-        // --- Input ---
         float vertical = 0f;
         float horizontal = 0f;
 
         if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-            vertical += 1f; // W = forward
+            vertical += 1f;
         if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-            vertical -= 1f; // S = brake/reverse
+            vertical -= 1f;
 
         if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
             horizontal += 1f;
@@ -58,39 +63,39 @@ public class SimpleCarController : MonoBehaviour
         Vector2 input = new Vector2(horizontal, vertical);
         if (input.magnitude > 1f) input.Normalize();
 
-        // --- Steering ---
-        currentTurnAngle = maxTurnAngle * input.x;
+        float targetSteer = maxTurnAngle * input.x;
+        currentTurnAngle = Mathf.Lerp(currentTurnAngle, targetSteer, Time.deltaTime * 6f);
         frontLeft.steerAngle = currentTurnAngle;
         frontRight.steerAngle = currentTurnAngle;
 
-        // --- Motor & Braking ---
-        Vector3 flatVelocity = new Vector3(carRB.linearVelocity.x, 0, carRB.linearVelocity.z);
+        Vector3 lv = carRB.linearVelocity;
+        Vector3 flatVelocity = new Vector3(lv.x, 0f, lv.z);
+        float speed = flatVelocity.magnitude;
 
-        // Determine if car is essentially stopped
-        // --- Acceleration logic ---
-        if (Keyboard.current.sKey.isPressed && flatVelocity.magnitude < 2f)
+        bool wDown = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
+        bool sDown = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+
+        currentAcceleration = 0f;
+        ApplyBrakes(0f);
+
+        if (sDown)
         {
-            // Start reversing
-            reversing = true;
-        }
-        else if (Keyboard.current.sKey.isPressed)
-        {
-            // Brake while moving forward
-            currentAcceleration = 0f;
-            ApplyBrakes(brakeForce);
-        }
-        else if (Keyboard.current.wKey.isPressed)
-        {
-            // Accelerate forward normally
-            currentAcceleration = acceleration;
-            if (reversing == true)
+            if (!wDown && speed < 1f)
+            {
+                reversing = true;
+            }
+
+            if (!reversing && speed > 0.1f)
             {
                 ApplyBrakes(brakeForce);
-            } else
-            {
-                ApplyBrakes(0f);
+                currentAcceleration = 0f;
             }
-           reversing = false;
+        }
+        else if (wDown)
+        {
+            reversing = false;
+            currentAcceleration = acceleration;
+            ApplyBrakes(0f);
         }
         else
         {
@@ -101,37 +106,36 @@ public class SimpleCarController : MonoBehaviour
 
         if (reversing)
         {
-            currentAcceleration = -acceleration * reverseSpeedMultiplier;
             ApplyBrakes(0f);
+            currentAcceleration = -acceleration * reverseSpeedMultiplier;
         }
 
-        // Apply torque
-        backLeft.motorTorque = -currentAcceleration;
-        backRight.motorTorque = -currentAcceleration;
+        backLeft.motorTorque = currentAcceleration;
+        backRight.motorTorque = currentAcceleration;
 
-        // --- Limit speed ---
         if (flatVelocity.magnitude > maxSpeed)
         {
             Vector3 limited = flatVelocity.normalized * maxSpeed;
             carRB.linearVelocity = new Vector3(limited.x, carRB.linearVelocity.y, limited.z);
         }
 
-        // --- Update wheels ---
         UpdateWheel(frontLeft, frontLeftTransform);
         UpdateWheel(frontRight, frontRightTransform);
         UpdateWheel(backLeft, backLeftTransform);
         UpdateWheel(backRight, backRightTransform);
 
-        // --- Visual lean ---
-        if (flatVelocity.magnitude > 5f)
+        if (carVisual != null)
         {
-        float targetLean = -input.x * turnLeanAngle;
-        Quaternion leanRotation = Quaternion.Euler(0f, 0f, targetLean);
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f) * leanRotation,
-            Time.deltaTime * 4f
-        );
+            float speedFactor = Mathf.Clamp01(speed / leanSpeedForFullEffect);
+            float targetZ = -input.x * turnLeanAngle * speedFactor; 
+            Quaternion targetLocal = Quaternion.Euler(0f, 0f, targetZ);
+
+            Vector3 currentLocalEuler = carVisual.localEulerAngles;
+            float currentZ = NormalizeAngle(currentLocalEuler.z);
+            float desiredZ = NormalizeAngle(targetZ);
+            float newZ = Mathf.LerpAngle(currentZ, desiredZ, Time.deltaTime * 4f);
+
+            carVisual.localRotation = Quaternion.Euler(currentLocalEuler.x, currentLocalEuler.y, newZ);
         }
     }
 
@@ -145,14 +149,18 @@ public class SimpleCarController : MonoBehaviour
 
     private void UpdateWheel(WheelCollider col, Transform trans)
     {
-        Vector3 pos;
-        Quaternion rot;
-        col.GetWorldPose(out pos, out rot);
+        if (col == null || trans == null) return;
 
-        trans.position = Vector3.Lerp(trans.position, pos, Time.deltaTime * 10f);
-        trans.rotation = Quaternion.Slerp(trans.rotation, rot, Time.deltaTime * 10f);
+        col.GetWorldPose(out Vector3 pos, out Quaternion rot);
+        trans.position = pos;
+        trans.rotation = rot;
+    }
 
-        float rotationAngle = col.rpm * 6f * Time.deltaTime;
-        trans.Rotate(Vector3.right, rotationAngle, Space.Self);
+    private static float NormalizeAngle(float a)
+    {
+        a %= 360f;
+        if (a > 180f) a -= 360f;
+        if (a < -180f) a += 360f;
+        return a;
     }
 }
