@@ -64,7 +64,7 @@ public class SimpleCarController : MonoBehaviour
         if (input.magnitude > 1f) input.Normalize();
 
         float targetSteer = maxTurnAngle * input.x;
-        currentTurnAngle = Mathf.Lerp(currentTurnAngle, targetSteer, Time.deltaTime * 6f);
+        currentTurnAngle = Mathf.Lerp(currentTurnAngle, targetSteer, Time.fixedDeltaTime * 6f);
         frontLeft.steerAngle = currentTurnAngle;
         frontRight.steerAngle = currentTurnAngle;
 
@@ -133,7 +133,7 @@ public class SimpleCarController : MonoBehaviour
             Vector3 currentLocalEuler = carVisual.localEulerAngles;
             float currentZ = NormalizeAngle(currentLocalEuler.z);
             float desiredZ = NormalizeAngle(targetZ);
-            float newZ = Mathf.LerpAngle(currentZ, desiredZ, Time.deltaTime * 4f);
+            float newZ = Mathf.LerpAngle(currentZ, desiredZ, Time.fixedDeltaTime * 4f);
 
             carVisual.localRotation = Quaternion.Euler(currentLocalEuler.x, currentLocalEuler.y, newZ);
         }

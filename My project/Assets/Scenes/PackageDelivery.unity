@@ -238,8 +238,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54958056}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10670006, y: -0.7088036, z: 0.109833054, w: 0.688585}
-  m_LocalPosition: {x: -180.69882, y: 13.16, z: 64.04047}
+  m_LocalRotation: {x: 0.09097835, y: 0.69355375, z: -0.088986866, w: 0.70907515}
+  m_LocalPosition: {x: -220.71199, y: 12.62, z: 63.11987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1732,7 +1732,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1000
   m_LinearDamping: 0
-  m_AngularDamping: 2
+  m_AngularDamping: 3
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1757,15 +1757,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311781531}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7172622, z: -0, w: 0.6968034}
-  m_LocalPosition: {x: -201.79, y: 3.42, z: 63.43}
+  m_LocalRotation: {x: -0, y: 0.6992392, z: -0, w: 0.7148879}
+  m_LocalPosition: {x: -197.91757, y: 3.42, z: 63.624413}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 240909031}
   - {fileID: 5652768328657232855}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -91.658, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 88.732, z: 0}
 --- !u!114 &311781535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2332,7 +2332,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 15
+    m_Stiffness: 7
   m_SidewaysFriction:
     m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
@@ -3413,7 +3413,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 15
+    m_Stiffness: 7
   m_SidewaysFriction:
     m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
@@ -3808,7 +3808,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 15
+    m_Stiffness: 7
   m_SidewaysFriction:
     m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
@@ -4276,7 +4276,7 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 0.25, y: 0.25, z: 0.25}
     QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 9.74, z: -21.1}
+  FollowOffset: {x: 0, y: 9.2, z: -22.8}
 --- !u!114 &932687692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4328,8 +4328,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932687690}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10670004, y: -0.7088036, z: 0.109833054, w: 0.688585}
-  m_LocalPosition: {x: -180.69882, y: 13.16, z: 64.04046}
+  m_LocalRotation: {x: 0.09097833, y: 0.69355375, z: -0.08898686, w: 0.7090751}
+  m_LocalPosition: {x: -220.71199, y: 12.62, z: 63.11987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4357,7 +4357,7 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 3.04, z: 0}
+  TargetOffset: {x: 0, y: 3.04, z: 0.81}
   Damping: {x: 0.25, y: 0.25}
   Lookahead:
     Enabled: 1
@@ -8442,7 +8442,7 @@ WheelCollider:
     m_ExtremumValue: 1
     m_AsymptoteSlip: 0.8
     m_AsymptoteValue: 0.5
-    m_Stiffness: 15
+    m_Stiffness: 7
   m_SidewaysFriction:
     m_ExtremumSlip: 0.3
     m_ExtremumValue: 1
