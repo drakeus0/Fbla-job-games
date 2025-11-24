@@ -53,18 +53,7 @@ public class TopDownPlayerMove : MonoBehaviour
         // --- Movement ---
         Vector3 move = inputDir * moveSpeed;
 
-        // --- Gravity & Jump ---
-        if (controller.isGrounded)
-        {
-            yVelocity = -1f;
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-                yVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-        else
-        {
-            yVelocity += gravity * Time.deltaTime;
-        }
-
+        yVelocity += gravity * Time.deltaTime;
         move.y = yVelocity;
 
         controller.Move(move * Time.deltaTime);
