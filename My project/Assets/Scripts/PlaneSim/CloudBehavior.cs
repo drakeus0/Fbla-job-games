@@ -1,59 +1,137 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Controls runtime-only behavior for a single cloud instance:
+/// - Fade in by modifying _BaseColor.a (only),
+/// - Self-despawn when z + buffer < plane.z,
+/// - Robust null-checks to avoid MissingReferenceException.
+/// </summary>
+[DisallowMultipleComponent]
 public class CloudBehavior : MonoBehaviour
 {
-    public Transform plane; // assign in Inspector
+    [Header("Runtime Links (set by spawner)")]
+    [Tooltip("Assigned by CloudSpawner at runtime. CloudBehavior will not touch the prefab.")]
+    public Transform plane;
 
-    [Header("Fade Settings")]
+    [Header("Fade & Despawn")]
+    [Tooltip("Duration (seconds) to fade from fully transparent to fully opaque (alpha controlled via _BaseColor.a).")]
     public float fadeDuration = 2f;
+    [Tooltip("Buffer used in the despawn check: destroy when transform.position.z + despawnBuffer < plane.position.z")]
+    public float despawnBuffer = 50f;
 
-    private Renderer[] renderers;
-    private float spawnTime;
+    // internal arrays for renderer materials set on the instance
+    Renderer[] renderers;
+    Material[] instanceMaterials; // matched 1-to-1 with renderers[] to allow alpha control
+
+    bool isFading = false;
+
+    void Awake()
+    {
+        // Gather renderers in this instance and create material instances (renderer.material clones)
+        renderers = GetComponentsInChildren<Renderer>(includeInactive: true);
+        instanceMaterials = new Material[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            // Accessing renderer.material produces an instance at runtime, safe for NOT modifying project prefab.
+            if (renderers[i] == null) continue;
+            instanceMaterials[i] = renderers[i].material;
+            // Try to set initial alpha to zero on _BaseColor if it exists
+            if (instanceMaterials[i].HasProperty("_BaseColor"))
+            {
+                Color c = instanceMaterials[i].GetColor("_BaseColor");
+                c.a = 0f;
+                instanceMaterials[i].SetColor("_BaseColor", c);
+            }
+            else
+            {
+                // If material has no _BaseColor, do nothing (but we keep behavior safe)
+            }
+        }
+    }
 
     void Start()
     {
-        renderers = GetComponentsInChildren<Renderer>();
-        spawnTime = Time.time;
+        // Start fade-in coroutine
+        StartCoroutine(FadeInCoroutine());
 
-        // Set initial alpha to 0
-        foreach (var r in renderers)
+        // Safety: if plane is null at start, don't throw; keep running but do not attempt despawn until assigned.
+    }
+
+    IEnumerator FadeInCoroutine()
+    {
+        if (isFading) yield break;
+        isFading = true;
+
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
         {
-            foreach (var mat in r.materials)
-            {
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    Color c = mat.color;
-                    c.a = 0f;
-                    mat.color = c;
-                }
-            }
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDuration);
+            SetAlphaForAll(t);
+            yield return null;
+        }
+
+        SetAlphaForAll(1f);
+        isFading = false;
+    }
+
+    void SetAlphaForAll(float alpha)
+    {
+        for (int i = 0; i < instanceMaterials.Length; i++)
+        {
+            Material mat = instanceMaterials[i];
+            if (mat == null) continue;
+            if (!mat.HasProperty("_BaseColor")) continue;
+            Color c = mat.GetColor("_BaseColor");
+            c.a = Mathf.Clamp01(alpha);
+            mat.SetColor("_BaseColor", c);
         }
     }
 
     void Update()
     {
-        // Fade in
-        float elapsed = Time.time - spawnTime;
-        float alpha = Mathf.Clamp01(elapsed / fadeDuration);
-
-        foreach (var r in renderers)
+        // Despawn rule: only if we have a valid plane reference
+        if (plane != null)
         {
-            foreach (var mat in r.materials)
+            // protect against destroyed transforms
+            if (plane.Equals(null))
             {
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    Color c = mat.color;
-                    c.a = alpha;
-                    mat.color = c;
-                }
+                // plane destroyed - stop checking
+                plane = null;
+                return;
+            }
+
+            float cloudZ = transform.position.z;
+            if (cloudZ + despawnBuffer < plane.position.z)
+            {
+                // Optional: stop any coroutines to avoid them touching destroyed materials (safe)
+                StopAllCoroutines();
+                Destroy(gameObject);
+                return;
             }
         }
+    }
 
-        // Despawn if behind plane (with null check)
-        if (plane != null && transform.position.z + 50f < plane.position.z)
+    void OnDestroy()
+    {
+        // Cleanup created material instances to avoid leaking memory in editor play mode
+        if (instanceMaterials != null)
         {
-            Destroy(gameObject);
+            for (int i = 0; i < instanceMaterials.Length; i++)
+            {
+                if (instanceMaterials[i] != null)
+                {
+#if UNITY_EDITOR
+                    // In the editor destroyImmediate the created material instances
+                    DestroyImmediate(instanceMaterials[i]);
+#else
+                    Destroy(instanceMaterials[i]);
+#endif
+                    instanceMaterials[i] = null;
+                }
+            }
         }
     }
 }
