@@ -10,16 +10,24 @@ public class Pickup_dropoff : MonoBehaviour
     [SerializeField] List<GameObject> dropoff_Points;
     GameObject chosen_Dropoff;
 
+    [SerializeField] GameObject pickup_Point;
+
     [SerializeField] TextMeshProUGUI countDown;
 
     [SerializeField] float Deliverytime;
 
+    float packagesMade = 0;
+    float stars = 0;
+
     bool deliveryStatus = false;
     float deliveryTimer;
+
+    StarAnimate starScript;
 
     public void Start()
     {
         deliveryTimer = Deliverytime;
+        starScript = FindFirstObjectByType<StarAnimate>();
     }
 
     private void Update()
@@ -41,11 +49,11 @@ public class Pickup_dropoff : MonoBehaviour
         if (collision.gameObject.CompareTag("PickUp") && deliveryStatus == false) {
             deliveryStatus = true;
             StartDelivery();
-            Debug.Log(Deliverytime);
         }
         else if (collision.gameObject.CompareTag("DropOff") && deliveryStatus == true)
         {
             deliveryStatus = false;
+            stars += 1;
             StopDelivery();
         }
     }
@@ -55,14 +63,21 @@ public class Pickup_dropoff : MonoBehaviour
         GameObject randomDropoff = dropoff_Points[UnityEngine.Random.Range(0, dropoff_Points.Count)];
         chosen_Dropoff = randomDropoff;
 
+        pickup_Point.SetActive(false);
         randomDropoff.SetActive(true);
-        countDown.gameObject.SetActive(true);
+        countDown.transform.parent.gameObject.SetActive(true);
     }
     void StopDelivery()
     {
+            pickup_Point.SetActive(true);
             deliveryTimer = Deliverytime;
             chosen_Dropoff.SetActive(false);
-            countDown.gameObject.SetActive(false);
+        countDown.transform.parent.gameObject.SetActive(false);
+        packagesMade += 1;
+        if (packagesMade == 3)
+        {
+            starScript.ShowUI(stars);
+        }
     }
 
 }
