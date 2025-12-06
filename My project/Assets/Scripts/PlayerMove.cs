@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static MainGameData;
 
 [RequireComponent(typeof(CharacterController))]
 public class TopDownPlayerMove : MonoBehaviour
@@ -18,6 +19,10 @@ public class TopDownPlayerMove : MonoBehaviour
 
     void Awake()
     {
+        MainGameData.Initialize(transform);
+
+        transform.position = MainGameData.playerReturnPos; 
+
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }

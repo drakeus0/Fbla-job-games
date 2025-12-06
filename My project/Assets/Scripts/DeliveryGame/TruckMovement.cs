@@ -42,7 +42,7 @@ public class SimpleCarController : MonoBehaviour
     private void Start()
     {
         if (carRB == null) carRB = GetComponent<Rigidbody>();
-        carRB.centerOfMass = new Vector3(0f, -0.5f, 0f);
+        carRB.centerOfMass = new Vector3(0f, -1f, 0f);
     }
 
     private void FixedUpdate()
@@ -68,9 +68,26 @@ public class SimpleCarController : MonoBehaviour
         frontLeft.steerAngle = currentTurnAngle;
         frontRight.steerAngle = currentTurnAngle;
 
+        if (carRB.linearVelocity.magnitude > 0.1f)
+        {
+            float steerTorque = currentTurnAngle * 0.1f; // tweak 0.1f to feel right
+            carRB.AddTorque(Vector3.up * steerTorque, ForceMode.Acceleration);
+        }
+
         Vector3 lv = carRB.linearVelocity;
+
+        // Only smooth upward motion, let gravity handle falling naturally
+        if (lv.y > 0f)
+        {
+            lv.y = Mathf.Lerp(lv.y, 0f, Time.fixedDeltaTime * 5f);
+        }
+
+        carRB.linearVelocity = lv;
+
+        // Calculate flat speed for acceleration/braking
         Vector3 flatVelocity = new Vector3(lv.x, 0f, lv.z);
         float speed = flatVelocity.magnitude;
+
 
         bool wDown = Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed;
         bool sDown = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;

@@ -84813,6 +84813,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 549844293532576394, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionDistance
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 549844293532576394, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 549844293532576394, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 549844293532576394, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 846383880564988129, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
       propertyPath: countDown
       value: 
@@ -84865,6 +84881,22 @@ PrefabInstance:
       propertyPath: 'dropoff_Points.Array.data[9]'
       value: 
       objectReference: {fileID: 1534445040}
+    - target: {fileID: 2970779492137784170, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionDistance
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970779492137784170, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970779492137784170, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2970779492137784170, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4059558998735126382, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -31.4
@@ -84905,9 +84937,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5392797899192239301, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionDistance
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392797899192239301, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392797899192239301, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392797899192239301, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6037989004782176257, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
       propertyPath: m_Name
       value: Truck
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263442183527664352, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionDistance
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263442183527664352, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263442183527664352, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 25000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263442183527664352, guid: 1afbdbe60f24e604f88f5bd4ab0862d3, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -85256,7 +85320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ea2fe90fc818446a8ddfe7012cb0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SendBack
-  scene: SampleScene
+  scene: MainGame
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
