@@ -134,10 +134,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Character: {r: 156.49, g: 1.5009999, b: 85.09, a: 0}
+    - _Character: {r: 160.19, g: 1.0600001, b: 87.240005, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Influence: {r: 1.09, g: 2.52, b: 0, a: 0}
+    - _Influence: {r: 0.7, g: 1.5, b: 0, a: 0}
     - _ParentPos: {r: 157.193, g: 1.07, b: 84.016, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Toughness: {r: 0.15, g: 0.4, b: 0, a: 0}
