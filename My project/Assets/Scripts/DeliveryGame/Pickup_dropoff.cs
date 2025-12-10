@@ -16,7 +16,7 @@ public class Pickup_dropoff : MonoBehaviour
 
     [SerializeField] float Deliverytime;
 
-    float packagesMade = 0;
+    float packagesMade = 2;
     float stars = 0;
 
     bool deliveryStatus = false;
