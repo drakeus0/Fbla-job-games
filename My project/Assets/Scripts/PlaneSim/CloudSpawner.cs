@@ -9,25 +9,25 @@ public class CloudSpawner : MonoBehaviour
     public GameObject[] cloudPrefabs;
 
     [Header("Spawn Region (rectangle centered on custom point)")]
-    public float centerY = 10f;
-    public float halfWidthX = 75f;
-    public float halfHeightY = 25f;
-    public float halfDepthZ = 10f;
+    public float centerY = 50f;
+    public float halfWidthX = 400f;
+    public float halfHeightY = 400f;
+    public float halfDepthZ = 750f;
 
     [Header("Spawning")]
     [Tooltip("How many clouds to spawn instantly at game start.")]
     public int initialClouds = 30;
     [Tooltip("Time between cloud spawns.")]
-    public float spawnInterval = 0.4f;
+    public float spawnInterval = 0.5f;
     [Tooltip("Forward offset from plane where initial clouds appear.")]
-    public float spawnStartOffsetZ = 200f;
+    public float spawnStartOffsetZ = 550f;
 
     [Tooltip("How far ahead continuous clouds spawn (separate from initial batch).")]
-    public float continuousSpawnOffsetZ = 350f;
+    public float continuousSpawnOffsetZ = 1500f;
 
     [Header("Scale")]
-    public float minScale = 0.8f;
-    public float maxScale = 2.2f;
+    public float minScale = 07f;
+    public float maxScale = 15f;
 
     [Header("Despawn")]
     public float despawnBuffer = 50f;
