@@ -16,7 +16,7 @@ public class Pickup_dropoff : MonoBehaviour
 
     [SerializeField] float Deliverytime;
 
-    float packagesMade = 2;
+    float packagesMade = 0;
     float stars = 0;
 
     bool deliveryStatus = false;
@@ -69,7 +69,9 @@ public class Pickup_dropoff : MonoBehaviour
     }
     void StopDelivery()
     {
-            pickup_Point.SetActive(true);
+        if (chosen_Dropoff)
+        {
+                     pickup_Point.SetActive(true);
             deliveryTimer = Deliverytime;
             chosen_Dropoff.SetActive(false);
         countDown.transform.parent.gameObject.SetActive(false);
@@ -77,6 +79,7 @@ public class Pickup_dropoff : MonoBehaviour
         if (packagesMade == 3)
         {
             starScript.ShowUI(stars);
+        }   
         }
     }
 
