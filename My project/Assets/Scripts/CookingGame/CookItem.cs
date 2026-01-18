@@ -1,43 +1,48 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CookItem : MonoBehaviour
 {
-    [SerializeField] private Sprite cookedBurger; 
-    [SerializeField] private Sprite burntBurger; 
+    [SerializeField] private Sprite cookedBurger;
+    [SerializeField] private Sprite burntBurger;
+    [SerializeField] private float cookDuration = 10f;
 
-    [SerializeField] private float cookTimer = 10f; 
-    private GameObject currCookedItem;
+    private CookableIngredient currentItem;
     public bool cooking;
 
-    private float timer = 0f;
-
-    void Update()
+    private void Update()
     {
-        if (cooking)
-        {
-            timer += Time.deltaTime;
+        if (!cooking || currentItem == null)
+            return;
 
-            if (timer >= (cookTimer + cookTimer))
+        currentItem.cookTimer += Time.deltaTime;
+
+        if (currentItem.cookTimer >= cookDuration * 2f)
+        {
+            if (currentItem.cookState != CookState.Burnt)
             {
-                currCookedItem.GetComponent<SpriteRenderer>().sprite = burntBurger;
-            } else if (timer >= cookTimer)
+                currentItem.cookState = CookState.Burnt;
+                currentItem.GetComponent<SpriteRenderer>().sprite = burntBurger;
+            }
+        }
+        else if (currentItem.cookTimer >= cookDuration)
+        {
+            if (currentItem.cookState != CookState.Cooked)
             {
-                currCookedItem.GetComponent<SpriteRenderer>().sprite = cookedBurger;
-                currCookedItem.GetComponent<DraggableIngredientt>().canPickUp = true;
-            }   
+                currentItem.cookState = CookState.Cooked;
+                currentItem.GetComponent<SpriteRenderer>().sprite = cookedBurger;
+            }
         }
     }
 
-    public void CookFood(GameObject burger)
+    public void CookFood(CookableIngredient item)
     {
+        currentItem = item;
         cooking = true;
-        currCookedItem = burger;
     }
 
     public void StopCooking()
     {
         cooking = false;
-        timer = 0f;
+        currentItem = null;
     }
 }
