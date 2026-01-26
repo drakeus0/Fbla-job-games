@@ -222,7 +222,8 @@ GameObject:
   - component: {fileID: 250585946}
   - component: {fileID: 250585945}
   - component: {fileID: 250585949}
-  - component: {fileID: 250585950}
+  - component: {fileID: 250585951}
+  - component: {fileID: 250585952}
   m_Layer: 6
   m_Name: Burger
   m_TagString: Untagged
@@ -368,7 +369,20 @@ MonoBehaviour:
   maxDragSpeed: 10
   dragDrag: 10
   dragAngularDrag: 5
---- !u!114 &250585950
+  hostObject: {fileID: 0}
+--- !u!114 &250585951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250585944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
+--- !u!114 &250585952
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CookableIngredient
   cookState: 0
   cookTimer: 0
-  knockOffForce: 1.5
+  knockOffForce: 2.5
 --- !u!1 &321814535
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +649,7 @@ GameObject:
   - component: {fileID: 488133180}
   - component: {fileID: 488133179}
   - component: {fileID: 488133178}
+  - component: {fileID: 488133183}
   m_Layer: 6
   m_Name: Cheese
   m_TagString: Untagged
@@ -659,6 +674,7 @@ MonoBehaviour:
   maxDragSpeed: 10
   dragDrag: 10
   dragAngularDrag: 5
+  hostObject: {fileID: 0}
 --- !u!65 &488133179
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -780,6 +796,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &488133183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488133177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
 --- !u!1 &496729409
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,6 +1013,7 @@ GameObject:
   - component: {fileID: 1178719923}
   - component: {fileID: 1178719922}
   - component: {fileID: 1178719921}
+  - component: {fileID: 1178719926}
   m_Layer: 6
   m_Name: BottomBun
   m_TagString: Untagged
@@ -1009,6 +1038,7 @@ MonoBehaviour:
   maxDragSpeed: 10
   dragDrag: 10
   dragAngularDrag: 5
+  hostObject: {fileID: 0}
 --- !u!65 &1178719922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1130,6 +1160,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1178719926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178719920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
 --- !u!1 &1508139931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,6 +1392,7 @@ GameObject:
   - component: {fileID: 1651575746}
   - component: {fileID: 1651575745}
   - component: {fileID: 1651575744}
+  - component: {fileID: 1651575749}
   m_Layer: 6
   m_Name: TopBun
   m_TagString: Untagged
@@ -1374,6 +1417,7 @@ MonoBehaviour:
   maxDragSpeed: 10
   dragDrag: 10
   dragAngularDrag: 5
+  hostObject: {fileID: 0}
 --- !u!65 &1651575745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1489,12 +1533,24 @@ Transform:
   m_GameObject: {fileID: 1651575743}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.198, y: -1.77, z: 5}
+  m_LocalPosition: {x: 1.93, y: -1.7, z: 5}
   m_LocalScale: {x: 0.5187833, y: 0.5187833, z: 0.5187833}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651575749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651575743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
 --- !u!1 &2073060722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,6 +1564,7 @@ GameObject:
   - component: {fileID: 2073060725}
   - component: {fileID: 2073060724}
   - component: {fileID: 2073060723}
+  - component: {fileID: 2073060728}
   m_Layer: 6
   m_Name: Lettuce
   m_TagString: Untagged
@@ -1532,6 +1589,7 @@ MonoBehaviour:
   maxDragSpeed: 10
   dragDrag: 10
   dragAngularDrag: 5
+  hostObject: {fileID: 0}
 --- !u!65 &2073060724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1653,6 +1711,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073060728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073060722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
