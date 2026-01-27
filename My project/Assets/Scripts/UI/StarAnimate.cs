@@ -34,15 +34,6 @@ public class StarAnimate : MonoBehaviour
         star2Original = star2.localScale;
         star3Original = star3.localScale;
 
-        // Start panel hidden
-        panel.localScale = Vector3.zero;
-        panel.gameObject.SetActive(false);
-
-        // Start stars hidden
-        star1.localScale = Vector3.zero;
-        star2.localScale = Vector3.zero;
-        star3.localScale = Vector3.zero;
-
         // Return button fade components
         returnButtonImage = returnButton.GetComponent<Image>();
         returnButtonText = returnButton.GetComponent<TMP_Text>();
