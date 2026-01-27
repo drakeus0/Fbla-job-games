@@ -14,19 +14,17 @@ public class Pickup_dropoff : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI countDown;
 
-    [SerializeField] float Deliverytime;
+    [SerializeField] float amountOfPackages;
 
     float packagesMade = 0;
-    float stars = 0;
 
     bool deliveryStatus = false;
-    float deliveryTimer;
+    float deliveryTimer = 0f;
 
     StarAnimate starScript;
 
     public void Start()
     {
-        deliveryTimer = Deliverytime;
         starScript = FindFirstObjectByType<StarAnimate>();
     }
 
@@ -34,26 +32,28 @@ public class Pickup_dropoff : MonoBehaviour
     {
         if (deliveryStatus == true)
         {
-            deliveryTimer -= Time.deltaTime;
+            deliveryTimer += Time.deltaTime;
             countDown.text = deliveryTimer.ToString("F2");
         }
-        if ( deliveryTimer < 0 )
+        if (packagesMade >= amountOfPackages)
         {
-            StopDelivery();
+            deliveryStatus = false;
+            float stars = (deliveryTimer <= 90f) ? 3 :
+                    (deliveryTimer <= 100f) ? 2 :
+                    (deliveryTimer <= 110f) ? 1 : 0;
+            countDown.enabled = false;
+            starScript.ShowUI(stars);
         }
-
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("PickUp") && deliveryStatus == false) {
+        if (collision.gameObject.CompareTag("PickUp") && packagesMade < amountOfPackages) {
             deliveryStatus = true;
             StartDelivery();
         }
         else if (collision.gameObject.CompareTag("DropOff") && deliveryStatus == true)
         {
-            deliveryStatus = false;
-            stars += 1;
             StopDelivery();
         }
     }
@@ -71,15 +71,9 @@ public class Pickup_dropoff : MonoBehaviour
     {
         if (chosen_Dropoff)
         {
-                     pickup_Point.SetActive(true);
-            deliveryTimer = Deliverytime;
-            chosen_Dropoff.SetActive(false);
-        countDown.transform.parent.gameObject.SetActive(false);
-        packagesMade += 1;
-        if (packagesMade == 3)
-        {
-            starScript.ShowUI(stars);
-        }   
+        pickup_Point.SetActive(true);
+        chosen_Dropoff.SetActive(false);
+        packagesMade += 1; 
         }
     }
 

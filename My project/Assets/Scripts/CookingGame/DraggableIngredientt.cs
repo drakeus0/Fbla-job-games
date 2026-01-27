@@ -1,145 +1,254 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class DraggableIngredientt : MonoBehaviour
 {
+    private static DraggableIngredientt currentlyDragged;
+
+    public event Action PickedUp;
+    public event Action Dropped;
+
     private Rigidbody rb;
     private Camera mainCamera;
-    private bool isDragging = false;
 
-    // Cooking
-    private bool touchingStove = false;
-    private Vector3 cookSpotPos;
-    private bool cooked = false;
-    private bool beingCooked = false;
-    private GameObject stove;
+    public bool isDraggingItem;
 
-    public bool canPickUp = true;
+    private LayerMask IngredientLayer;
+
+    [Header("Drag Settings")]
+    [SerializeField] private float followStrength = 20f;
+    [SerializeField] private float maxDragSpeed = 10f;
+    [SerializeField] private float dragDrag = 10f;
+    [SerializeField] private float dragAngularDrag = 5f;
+
+    private float defaultDrag;
+    private float defaultAngularDrag;
+
+    [Header("Stick")]
+    public GameObject hostObject;
+    public bool isHost => hostObject == null || hostObject == gameObject;
+    private float StickTimer = 1f;
+    private float stickProgress = 0f;
+    private DraggableIngredientt pendingStickTarget = null;
+
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
+
+        defaultDrag = rb.linearDamping;
+        defaultAngularDrag = rb.angularDamping;
+
+        IngredientLayer = LayerMask.NameToLayer("CookingGameIngredient");
     }
 
     private void Update()
     {
         HandlePickup();
         HandleDrop();
-        HandleDragging();
+        HandleStickTimer();
     }
 
+    private void FixedUpdate()
+    {
+        HandleDraggingPhysics();
+    }
+
+    #region Dragging
     private void HandlePickup()
     {
-        if (Mouse.current.leftButton.isPressed && !isDragging && canPickUp)
-        {
-            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (!Mouse.current.leftButton.isPressed || currentlyDragged != null || isDraggingItem)
+            return;
 
-            // Use the collider's Raycast to avoid other triggers blocking it
-            if (GetComponent<Collider>().Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+        if (GetComponent<Collider>().Raycast(ray, out _, Mathf.Infinity))
+            //if this object isnt the top of a stack, make the parent handle the dragging
+            if (isHost)
             {
-                if (beingCooked)
-                {
-                    stove.GetComponent<CookItem>().StopCooking();
-                    beingCooked = false;
-                }
                 PickUp();
             }
-        }
+            else if (hostObject != null)
+            {
+                hostObject.GetComponent<DraggableIngredientt>().PickUp();
+            }
     }
 
     private void HandleDrop()
     {
-        if (!Mouse.current.leftButton.isPressed && isDragging)
+        if (Mouse.current.leftButton.isPressed || currentlyDragged != this)
+            return;
+
+        isDraggingItem = false;
+        currentlyDragged = null;
+        if (rb != null)
         {
-            isDragging = false;
-
-            if (!touchingStove || cooked)
-            {
-                rb.isKinematic = false;
-
-                // Check for overlaps and move above if inside another collider
-                Collider[] overlaps = Physics.OverlapBox(
-                    transform.position,
-                    GetComponent<Collider>().bounds.extents * 0.9f,
-                    transform.rotation
-                );
-
-                foreach (Collider col in overlaps)
-                {
-                    if (col.gameObject == gameObject) continue;
-
-                    // Move the ingredient above the collider it is overlapping
-                    Vector3 abovePos = col.bounds.max;
-                    transform.position = new Vector3(transform.position.x, abovePos.y + 0.1f, transform.position.z);
-                    break; // only adjust once
-                }
-            }
-            else
-            {
-                // Stove logic
-                if (!cooked)
-                {
-                    canPickUp = false;
-                    transform.position = cookSpotPos;
-
-                    CookItem cookScript = stove.GetComponent<CookItem>();
-                    cooked = true;
-                    if (cookScript != null)
-                    {
-                        cookScript.CookFood(gameObject); // CookItem handles cooking timer
-                        beingCooked = true;
-                    }
-                }
-            }
+            rb.useGravity = true;
+            rb.linearDamping = defaultDrag;
+            rb.angularDamping = defaultAngularDrag;
         }
+
+        Dropped?.Invoke();
     }
 
-    private void HandleDragging()
+    private void HandleDraggingPhysics()
     {
-        if (!isDragging) return;
+        if (!isDraggingItem)
+            return;
 
-        Vector2 mouseScreenPos2D = Mouse.current.position.ReadValue();
+        Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
 
-        Vector3 mouseScreenPos = new Vector3(
-            mouseScreenPos2D.x,
-            mouseScreenPos2D.y,
-            Mathf.Abs(mainCamera.transform.position.z - transform.position.z)
+        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(
+            new Vector3(
+                mouseScreenPos.x,
+                mouseScreenPos.y,
+                Mathf.Abs(mainCamera.transform.position.z - transform.position.z)
+            )
         );
 
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(mouseScreenPos);
+        mouseWorldPos.z = rb.position.z;
 
-        // Keep z fixed
-        mouseWorldPos.z = transform.position.z;
+        Vector3 direction = mouseWorldPos - rb.position;
 
-        transform.position = mouseWorldPos;
+        rb.linearVelocity = Vector3.ClampMagnitude(
+            direction * followStrength,
+            maxDragSpeed
+        );
     }
 
     private void PickUp()
     {
-        isDragging = true;
-        rb.isKinematic = true;
+        isDraggingItem = true;
+        currentlyDragged = this;
+
+        rb.useGravity = false;
+        rb.linearDamping = dragDrag;
+        rb.angularDamping = dragAngularDrag;
+
+        PickedUp?.Invoke();
+    }
+    #endregion
+
+    #region Stick
+
+    private GameObject GetTopHost(GameObject obj)
+    {
+        DraggableIngredientt other = obj.GetComponent<DraggableIngredientt>();
+
+        if (other == null || other.hostObject == null)
+            return obj;
+
+        return other.hostObject;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void NotifyCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("CookingGameStove"))
+        if (!isHost) return;
+        if (!isDraggingItem) return;
+        if (collision.gameObject.layer != IngredientLayer) return;
+
+        pendingStickTarget = collision.gameObject.GetComponent<DraggableIngredientt>();
+    }
+
+    public void NotifyCollisionExit(Collision collision)
+    {
+        if (!isHost) return;
+        if (collision.gameObject.layer != IngredientLayer) return;
+
+        DraggableIngredientt other = collision.gameObject.GetComponent<DraggableIngredientt>();
+        if (other == pendingStickTarget)
         {
-            CookItem cookItem = other.GetComponent<CookItem>();
-            if (cookItem != null && !cookItem.cooking)
-            {
-                stove = other.gameObject;
-                cookSpotPos = other.transform.position;
-                touchingStove = true;
-            }
+            pendingStickTarget = null;
+            stickProgress = 0f;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void HandleStickTimer()
     {
-        if (other.CompareTag("CookingGameStove"))
+        if (!isDraggingItem || pendingStickTarget == null)
         {
-            touchingStove = false;
+            stickProgress = 0f;
+            return;
+        }
+
+        stickProgress += Time.deltaTime;
+
+        if (stickProgress >= StickTimer)
+        {
+            StickWith(pendingStickTarget);
+            stickProgress = 0f;
+            pendingStickTarget = null;
         }
     }
+
+    public void StickWith(DraggableIngredientt other)
+    {
+        if (other == null) return;
+        if (other.gameObject.layer != IngredientLayer) return;
+
+        GameObject myHost = GetTopHost(gameObject);
+        GameObject otherHost = GetTopHost(other.gameObject);
+
+        if (myHost == otherHost) return;
+
+        GameObject finalHost = myHost.GetInstanceID() < otherHost.GetInstanceID() ? myHost : otherHost;
+        GameObject childStack = finalHost == myHost ? otherHost : myHost;
+
+        childStack.transform.SetParent(finalHost.transform);
+
+        UpdateHostRecursive(childStack.transform, finalHost);
+
+        DraggableIngredientt childStackScript = childStack.GetComponent<DraggableIngredientt>();
+        if (childStackScript != null)
+        {
+            childStackScript.StickToHost(finalHost);
+        }
+
+        //if it can be cooked, disable it because its in a stack now
+        var cookable = GetComponent<CookableIngredient>();
+        if (cookable != null)
+            cookable.enabled = false;
+
+        DraggableIngredientt finalHostScript = finalHost.GetComponent<DraggableIngredientt>();
+        if (finalHostScript != null)
+        {
+            finalHostScript.hostObject = finalHost;
+        }
+    }
+
+    private void UpdateHostRecursive(Transform root, GameObject host)
+    {
+        DraggableIngredientt ing = root.GetComponent<DraggableIngredientt>();
+        if (ing != null)
+            ing.hostObject = host;
+
+        foreach (Transform child in root)
+            UpdateHostRecursive(child, host);
+    }
+
+    private void StickToHost(GameObject host)
+    {
+        transform.SetParent(host.transform);
+
+        if (host == gameObject) return;
+
+        isDraggingItem = false;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            Destroy(rb);
+
+        var collisionScript = GetComponent<IngredientCollisionHost>();
+        if (collisionScript != null)
+            collisionScript.enabled = false;
+    }
+
+
+
+
+
+    #endregion
 }
