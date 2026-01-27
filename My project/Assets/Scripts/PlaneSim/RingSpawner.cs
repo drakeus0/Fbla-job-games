@@ -23,6 +23,7 @@ public class RingSpawner : MonoBehaviour
 
     void Start()
     {
+        RingManager.Instance.SetPlane(plane);
         StartCoroutine(SpawnLoop());
     }
 
@@ -42,23 +43,26 @@ public class RingSpawner : MonoBehaviour
 
 
    void SpawnRing()
-{
-    float z = plane.position.z + spawnOffsetZ;
+    {
+        float z = plane.position.z + spawnOffsetZ;
 
-    // FULLY RANDOM X/Y
-    float xOffset = Random.Range(-maxOffsetX, maxOffsetX);
-    float yOffset = Random.Range(-maxOffsetY, maxOffsetY);
+        // FULLY RANDOM X/Y
+        float xOffset = Random.Range(-maxOffsetX, maxOffsetX);
+        float yOffset = Random.Range(-maxOffsetY, maxOffsetY);
 
-    Vector3 pos = new Vector3(
-        plane.position.x + xOffset,
-        centerY + yOffset,
-        z
-    );
+        Vector3 pos = new Vector3(
+            plane.position.x + xOffset,
+            centerY + yOffset,
+            z
+        );
 
-    GameObject ring = Instantiate(ringPrefab, pos, Quaternion.identity);
-    ring.AddComponent<RingBehavior>().Init(plane, despawnBuffer);
-    
-    RingManager.Instance.SetRing(ring.transform);
-}
+        GameObject ring = Instantiate(ringPrefab, pos, Quaternion.identity);
+
+        RingBehavior rb = ring.AddComponent<RingBehavior>();
+        rb.Init(plane, despawnBuffer);
+
+        RingManager.Instance.RegisterRing(ring.transform);
+        RingManager.Instance.SetPlane(plane);
+    }
 
 }

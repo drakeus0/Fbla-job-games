@@ -13,17 +13,21 @@ public class RingBehavior : MonoBehaviour
 
     void Update()
     {
+        // Missed ring → cleanly remove
         if (plane.position.z - transform.position.z > despawnBuffer)
+        {
+            RingManager.Instance.RemoveRing(transform);
             Destroy(gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform == plane)
-        {
-            RingManager.Instance.ClearRing(transform);
-            // 🔋 Energy refill, score, sound, etc.
-            Destroy(gameObject);
-        }
+        if (!other.CompareTag("Player"))
+            return;
+
+        // Hit ring → advance immediately
+        RingManager.Instance.CompleteRing(transform);
+        Destroy(gameObject);
     }
 }

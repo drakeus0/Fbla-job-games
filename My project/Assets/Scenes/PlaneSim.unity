@@ -2591,7 +2591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf2695b64770e046861e6516bedfc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RingManager
-  currentRing: {fileID: 0}
+  currentTarget: {fileID: 0}
 --- !u!4 &585141338
 Transform:
   m_ObjectHideFlags: 0
@@ -11316,12 +11316,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   FlySpeed: 200
   YawAmount: 40
-  energy: 20
-  energyDrainRate: 0.001
+  energy: 100
+  energyDrainRate: 5
   minEnergy: 0
   maxEnergy: 100
-  rechargeAmount: 100
-  maxFlySpeed: 200
+  rechargeAmount: 50
+  maxFlySpeed: 50
   minFlySpeed: 2
   inputSmoothSpeed: 3
   divePitchSpeed: 80
@@ -11860,10 +11860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 751921678f25e4c47aace1671d5b632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RingArrowUI
-  arrow: {fileID: 2079099292}
   plane: {fileID: 1982049789}
-  cam: {fileID: 990737974}
-  screenEdgePadding: 80
+  arrow: {fileID: 2079099292}
+  radius: 180
+  mainCamera: {fileID: 0}
 --- !u!114 &2079099294
 MonoBehaviour:
   m_ObjectHideFlags: 0

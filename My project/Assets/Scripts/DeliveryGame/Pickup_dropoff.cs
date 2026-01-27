@@ -38,9 +38,9 @@ public class Pickup_dropoff : MonoBehaviour
         if (packagesMade >= amountOfPackages)
         {
             deliveryStatus = false;
-            float stars = (deliveryTimer <= 90f) ? 3 :
-                    (deliveryTimer <= 100f) ? 2 :
-                    (deliveryTimer <= 110f) ? 1 : 0;
+            float stars = (deliveryTimer <= 110f) ? 3 :
+                    (deliveryTimer <= 130f) ? 2 :
+                    (deliveryTimer <= 150f) ? 1 : 0;
             countDown.enabled = false;
             starScript.ShowUI(stars);
         }
