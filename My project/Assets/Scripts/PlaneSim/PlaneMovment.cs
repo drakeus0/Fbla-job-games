@@ -84,7 +84,7 @@ public class PlaneMovement : MonoBehaviour
                 diveSpeed += diveAcceleration * Time.deltaTime;
                 transform.position += transform.forward * diveSpeed * Time.deltaTime;
 
-                Vector3 diveRotation = new Vector3(90f, Yaw, 0f); 
+                Vector3 diveRotation = new Vector3(65f, Yaw, 0f); 
                 transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(diveRotation), divePitchSpeed * Time.deltaTime);
             }
 

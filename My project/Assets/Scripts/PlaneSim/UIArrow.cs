@@ -1,37 +1,59 @@
 using UnityEngine;
 
-public class RingArrowUI : MonoBehaviour
+public class UIArrow : MonoBehaviour
 {
-    public RectTransform arrow;
     public Transform plane;
-    public Camera cam;
+    public RectTransform arrow;
+    public float radius = 120f;
+    public Camera mainCamera;
 
-    public float screenEdgePadding = 80f;
+    CanvasGroup canvasGroup;
+
+    void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+        canvasGroup.alpha = 0f;
+
+        if (!arrow.gameObject.activeSelf)
+            arrow.gameObject.SetActive(true);
+
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+    }
 
     void Update()
     {
-        if (RingManager.Instance == null || RingManager.Instance.currentRing == null)
+        if (plane == null || RingManager.Instance == null || mainCamera == null)
         {
-            arrow.gameObject.SetActive(false);
+            canvasGroup.alpha = 0f;
             return;
         }
 
-        if(RingManager.Instance.currentRing == null)
-            Debug.Log("No ring registered yet!");
-        else
-            Debug.Log("Arrow should point to ring: " + RingManager.Instance.currentRing.name);
+        Transform target = RingManager.Instance.currentTarget;
+        if (target == null)
+        {
+            canvasGroup.alpha = 0f;
+            return;
+        }
 
-        arrow.gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
 
-        Vector3 screenPos = cam.WorldToScreenPoint(RingManager.Instance.currentRing.position);
+        // Project the target's world position to screen space
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(target.position);
+        Vector3 screenPlanePos = mainCamera.WorldToScreenPoint(plane.position);
 
-        Vector3 center = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        Vector3 dir = (screenPos - center).normalized;
+        Vector2 dir = new Vector2(
+            screenPos.x - screenPlanePos.x,
+            screenPos.y - screenPlanePos.y
+        ).normalized;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         arrow.rotation = Quaternion.Euler(0, 0, angle - 90f);
 
-        Vector3 arrowPos = center + dir * (Mathf.Min(Screen.width, Screen.height) / 2f - screenEdgePadding);
-        arrow.position = arrowPos;
+        // place arrow on a circle around the plane
+        arrow.anchoredPosition = dir * radius;
     }
 }
