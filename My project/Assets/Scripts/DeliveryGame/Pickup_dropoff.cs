@@ -41,7 +41,6 @@ public class Pickup_dropoff : MonoBehaviour
             float stars = (deliveryTimer <= 110f) ? 3 :
                     (deliveryTimer <= 130f) ? 2 :
                     (deliveryTimer <= 150f) ? 1 : 0;
-            countDown.enabled = false;
             starScript.ShowUI(stars);
         }
     }
