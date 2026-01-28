@@ -8,6 +8,7 @@ TagManager:
   - DropOff
   - PickUp
   - CookingGameStove
+  - Ring
   layers:
   - Default
   - TransparentFX
