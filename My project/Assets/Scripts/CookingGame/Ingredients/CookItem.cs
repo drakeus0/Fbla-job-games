@@ -22,6 +22,7 @@ public class CookItem : MonoBehaviour
             {
                 currentItem.cookState = CookState.Burnt;
                 currentItem.GetComponent<SpriteRenderer>().sprite = burntBurger;
+                currentItem.GetComponent<DraggableIngredientt>().ingredientType = IngredientType.BurntPatty;
             }
         }
         else if (currentItem.cookTimer >= cookDuration)
@@ -30,6 +31,7 @@ public class CookItem : MonoBehaviour
             {
                 currentItem.cookState = CookState.Cooked;
                 currentItem.GetComponent<SpriteRenderer>().sprite = cookedBurger;
+                currentItem.GetComponent<DraggableIngredientt>().ingredientType = IngredientType.WellCookedPatty;
             }
         }
     }
