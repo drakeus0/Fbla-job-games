@@ -4,17 +4,11 @@ using System.Collections;
 
 public class PlaneMovement : MonoBehaviour
 {
-    /* =======================
-       FLIGHT SPEEDS
-       ======================= */
     [Header("Flight Speeds")]
     public float minFlySpeed = 10f;
     public float maxFlySpeed = 35f;
     float currentSpeed;
 
-    /* =======================
-       ENERGY
-       ======================= */
     [Header("Energy")]
     public float energy = 100f;
     public float maxEnergy = 100f;
@@ -22,18 +16,12 @@ public class PlaneMovement : MonoBehaviour
     public float rechargeAmount = 40f;
     bool energyDraining;
 
-    /* =======================
-       INPUT
-       ======================= */
     float horizontalInput;
     float verticalInput;
     [SerializeField] GameObject flightControlsPrompt;
     [SerializeField] float flightPromptDuration = 5f;
     bool flightPromptShown = false;
 
-    /* =======================
-       ROTATION
-       ======================= */
     [Header("Rotation")]
     public float yawSpeed = 90f;
     public float pitchSpeed = 70f;
@@ -42,23 +30,35 @@ public class PlaneMovement : MonoBehaviour
 
     float yawAngle;
     float pitchAngle;
-    float yawVelocity;
     float pitchVelocity;
     float rollAngleCurrent;
     float rollVelocity;
 
-    /* =======================
-       TAKEOFF
-       ======================= */
     [Header("Takeoff")]
     public float takeoffSpeed = 48f;
     public float takeoffPitchAngle = 26f;
     public float takeoffHeight = 45f;
-    public GameObject takeoffText; // assign in inspector
+    public GameObject takeoffText;
 
-    /* =======================
-       FLIGHT STATE
-       ======================= */
+    [Header("Crash / Out of Energy")]
+    public float outOfEnergyDivePitch = 55f;
+    public float outOfEnergyForwardSpeed = 30f;
+    public float crashStopY = 0f;
+
+    bool outOfEnergy = false;
+    float lockedDiveYaw;
+
+    [Header("Crash Terrain Block")]
+    public Terrain crashTerrain;          // drag CrashTerrain here
+    public float crashTerrainY = 0f;      // usually 0
+    public Vector3 crashTerrainOffset;    // e.g. (0,0,200) if you want it ahead
+    public bool followPlaneWhileDiving = true;
+
+    [Header("Disable plane collider during dive (prevents spin-outs)")]
+    public bool disablePlaneColliderOnDive = true;
+
+    Collider planeCollider;
+
     public enum FlightState { Grounded, TakingOff, Flying }
     public FlightState flightState = FlightState.Grounded;
 
@@ -69,21 +69,21 @@ public class PlaneMovement : MonoBehaviour
         flightControlsPrompt.SetActive(false);
     }
 
-    /* =======================
-       START
-       ======================= */
     void Start()
     {
         currentSpeed = 0f;
         energyDraining = false;
 
+        planeCollider = GetComponent<Collider>();
+
         if (takeoffText != null)
             takeoffText.SetActive(true);
+
+        // Make sure crash terrain starts hidden (so you only see it when needed)
+        if (crashTerrain != null)
+            crashTerrain.gameObject.SetActive(false);
     }
 
-    /* =======================
-       UPDATE
-       ======================= */
     void Update()
     {
         bool takeoffHeld = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
@@ -96,9 +96,6 @@ public class PlaneMovement : MonoBehaviour
         }
     }
 
-    /* =======================
-       GROUNDED
-       ======================= */
     void HandleGrounded(bool takeoffHeld)
     {
         currentSpeed = 0f;
@@ -112,32 +109,17 @@ public class PlaneMovement : MonoBehaviour
         }
     }
 
-    /* =======================
-       TAKEOFF
-       ======================= */
     void HandleTakeoff()
     {
-        // Accelerate along runway
         currentSpeed += 45f * Time.deltaTime;
         currentSpeed = Mathf.Clamp(currentSpeed, 0f, takeoffSpeed);
 
-        // Nose UP (negative pitch = up)
-        pitchAngle = Mathf.MoveTowards(
-            pitchAngle,
-            -takeoffPitchAngle,
-            60f * Time.deltaTime
-        );
+        pitchAngle = Mathf.MoveTowards(pitchAngle, -takeoffPitchAngle, 60f * Time.deltaTime);
 
-        transform.localRotation = Quaternion.Euler(
-            pitchAngle,
-            yawAngle,
-            0f
-        );
+        transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, 0f);
 
-        // Forward motion + lift
         transform.position += transform.forward * currentSpeed * Time.deltaTime;
 
-        // Become airborne
         if (transform.position.y >= takeoffHeight)
         {
             flightState = FlightState.Flying;
@@ -145,37 +127,29 @@ public class PlaneMovement : MonoBehaviour
         }
     }
 
-    /* =======================
-       FLYING
-       ======================= */
     void HandleFlying()
     {
-        // Only show prompt once
+        if (outOfEnergy)
+        {
+            HandleOutOfEnergyDive();
+            return;
+        }
+
         if (!flightPromptShown)
         {
             StartCoroutine(ShowFlightControlsPrompt());
             flightPromptShown = true;
         }
 
-        /* =======================
-           INPUT
-           ======================= */
         horizontalInput = 0f;
         verticalInput = 0f;
 
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
-            horizontalInput = -1f;
-        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
-            horizontalInput = 1f;
+        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) horizontalInput = -1f;
+        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) horizontalInput = 1f;
 
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed)
-            verticalInput = 1f;
-        else if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
-            verticalInput = -1f;
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) verticalInput = 1f;
+        else if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) verticalInput = -1f;
 
-        /* =======================
-           ENERGY & SPEED
-           ======================= */
         if (energyDraining)
         {
             energy -= energyDrainRate * Time.deltaTime;
@@ -186,38 +160,81 @@ public class PlaneMovement : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, 2f * Time.deltaTime);
         transform.position += transform.forward * currentSpeed * Time.deltaTime;
 
-        /* =======================
-           PITCH
-           ======================= */
         pitchVelocity += verticalInput * pitchSpeed * Time.deltaTime;
         pitchVelocity = Mathf.Lerp(pitchVelocity, 0f, 3f * Time.deltaTime);
         pitchAngle += pitchVelocity * Time.deltaTime;
         pitchAngle = Mathf.Clamp(pitchAngle, -maxPitchAngle, maxPitchAngle);
 
-        /* =======================
-           ROLL
-           ======================= */
         float targetRoll = -horizontalInput * rollAngle;
         rollAngleCurrent = Mathf.SmoothDamp(rollAngleCurrent, targetRoll, ref rollVelocity, 0.6f);
 
-        /* =======================
-           YAW FROM ROLL (FIXED DIRECTION)
-           ======================= */
-        yawAngle += -rollAngleCurrent * 0.25f * Time.deltaTime; // <-- negative fixes direction
+        yawAngle += -rollAngleCurrent * 0.4f * Time.deltaTime;
 
-        /* =======================
-           APPLY ROTATION
-           ======================= */
-        transform.localRotation = Quaternion.Euler(
-            pitchAngle,
-            yawAngle,
-            rollAngleCurrent
+        transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, rollAngleCurrent);
+
+        // Start dive
+        if (energy <= 0f)
+        {
+            outOfEnergy = true;
+            lockedDiveYaw = yawAngle;
+
+            pitchVelocity = 0f;
+            rollVelocity = 0f;
+
+            if (disablePlaneColliderOnDive && planeCollider != null)
+                planeCollider.enabled = false;
+
+            EnableAndPlaceCrashTerrain();
+        }
+    }
+
+    void HandleOutOfEnergyDive()
+    {
+        pitchAngle = Mathf.MoveTowards(pitchAngle, outOfEnergyDivePitch, 80f * Time.deltaTime);
+        rollAngleCurrent = Mathf.SmoothDamp(rollAngleCurrent, 0f, ref rollVelocity, 0.4f);
+
+        // Keep heading locked: NO circles
+        yawAngle = lockedDiveYaw;
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, outOfEnergyForwardSpeed, 20f * Time.deltaTime);
+        transform.position += transform.forward * currentSpeed * Time.deltaTime;
+
+        transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, rollAngleCurrent);
+
+        if (followPlaneWhileDiving)
+            EnableAndPlaceCrashTerrain();
+
+        if (transform.position.y <= crashStopY)
+        {
+            transform.position = new Vector3(transform.position.x, crashStopY, transform.position.z);
+
+            currentSpeed = 0f;
+            energyDraining = false;
+
+            enabled = false;
+        }
+    }
+
+    void EnableAndPlaceCrashTerrain()
+    {
+        if (crashTerrain == null || crashTerrain.terrainData == null) return;
+
+        if (!crashTerrain.gameObject.activeSelf)
+            crashTerrain.gameObject.SetActive(true);
+
+        Vector3 size = crashTerrain.terrainData.size;
+
+        // We want the plane roughly centered on the terrain block.
+        Vector3 desiredCenter = transform.position + crashTerrainOffset;
+
+        // Terrain position is its bottom-left corner, so subtract half size.
+        crashTerrain.transform.position = new Vector3(
+            desiredCenter.x - size.x * 0.5f,
+            crashTerrainY,
+            desiredCenter.z - size.z * 0.5f
         );
     }
 
-    /* =======================
-       RINGS
-       ======================= */
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ring"))
