@@ -15,6 +15,7 @@ public class DraggableIngredientt : MonoBehaviour
     public bool isDraggingItem;
 
     private LayerMask IngredientLayer;
+    public IngredientType ingredientType;
 
     [Header("Drag Settings")]
     [SerializeField] private float followStrength = 20f;

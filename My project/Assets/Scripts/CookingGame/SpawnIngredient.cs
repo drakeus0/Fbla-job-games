@@ -42,7 +42,6 @@ public class SpawnIngredient : MonoBehaviour
 
     private void InstantiateIngredient()
     {
-        // Spawn ingredient
         GameObject spawnedIngredient = Instantiate(
             ingredientPrefab,
             new Vector3(
@@ -53,15 +52,13 @@ public class SpawnIngredient : MonoBehaviour
             Quaternion.identity
         );
 
-        // Upward force
         Rigidbody rb = spawnedIngredient.GetComponent<Rigidbody>();
         if (rb)
         {
             rb.AddForce(Vector3.up * 2.5f, ForceMode.Impulse);
         }
 
-        // Pop animation on the box
-        transform.DOKill(); // prevent stacking tweens
+        transform.DOKill(); 
         transform
             .DOScale(originalScale * popScale, popDuration)
             .SetEase(Ease.OutBack)
