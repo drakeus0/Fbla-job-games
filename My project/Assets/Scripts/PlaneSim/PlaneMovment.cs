@@ -57,6 +57,8 @@ public class PlaneMovement : MonoBehaviour
     [Header("Disable plane collider during dive (prevents spin-outs)")]
     public bool disablePlaneColliderOnDive = true;
 
+    public RunStatsUI runUI;
+
     Collider planeCollider;
 
     public enum FlightState { Grounded, TakingOff, Flying }
@@ -124,6 +126,7 @@ public class PlaneMovement : MonoBehaviour
         {
             flightState = FlightState.Flying;
             energyDraining = true;
+            if (runUI) runUI.StartRun();
         }
     }
 
@@ -210,7 +213,7 @@ public class PlaneMovement : MonoBehaviour
 
             currentSpeed = 0f;
             energyDraining = false;
-
+            if (runUI) runUI.EndRun();
             enabled = false;
         }
     }
