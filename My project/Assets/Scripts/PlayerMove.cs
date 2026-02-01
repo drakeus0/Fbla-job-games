@@ -21,8 +21,6 @@ public class TopDownPlayerMove : MonoBehaviour
     {
         MainGameData.Initialize(transform);
 
-        transform.position = MainGameData.playerReturnPos; 
-
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }

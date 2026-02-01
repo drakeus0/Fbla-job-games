@@ -12,6 +12,7 @@ public static class MainGameData
         {
             playerReturnPos = playerTransform.position;
             initialized = true;
+            Debug.Log(playerReturnPos);
         }
     }
 }
