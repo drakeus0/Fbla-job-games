@@ -14,9 +14,11 @@ public class ChangeScene : MonoBehaviour
 
     [SerializeField] float triggerDistance = 4f;
     [SerializeField] float scaleDuration = 0.25f;
+    [SerializeField] bool ifTutorial;
 
     bool isVisible = false;
     Vector3 originalScale;
+    
 
     Transform uiParent; 
 
@@ -43,7 +45,9 @@ public class ChangeScene : MonoBehaviour
 
             if (Keyboard.current.eKey.wasPressedThisFrame)
             {
-                MainGameData.playerReturnPos = player.transform.position;
+                if (ifTutorial != true);
+                    MainGameData.playerReturnPos = player.transform.position;
+
                 SceneManager.LoadScene(scene);
             }
         }
@@ -58,7 +62,7 @@ public class ChangeScene : MonoBehaviour
     {
         isVisible = true;
 
-        text.text = "Press E to work as a " + jobName;
+        text.text = jobName;
 
         uiParent.gameObject.SetActive(true);
         uiParent.localScale = Vector3.zero;
