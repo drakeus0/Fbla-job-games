@@ -134,7 +134,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Character: {r: 145.73769, g: 1.084998, b: 85.73424, a: 0}
+    - _Character: {r: 160.19, g: 1.0600001, b: 87.240005, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Influence: {r: 0.7, g: 1.5, b: 0, a: 0}
