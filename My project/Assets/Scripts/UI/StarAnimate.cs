@@ -20,6 +20,8 @@ public class StarAnimate : MonoBehaviour
     private float starDelay = 0.2f;
     private float funFactFadeDuration = 1f;
 
+    private Vector3 panelOriginalScale;
+
     private Vector3 star1Original;
     private Vector3 star2Original;
     private Vector3 star3Original;
@@ -29,6 +31,8 @@ public class StarAnimate : MonoBehaviour
 
     private void Awake()
     {
+        panelOriginalScale = panel.localScale;
+
         // Cache original star scales
         star1Original = star1.localScale;
         star2Original = star2.localScale;
@@ -71,14 +75,16 @@ public class StarAnimate : MonoBehaviour
     public void ShowUI(float starsEarned)
     {
         panel.gameObject.SetActive(true);
-        panel.localScale = Vector3.zero;
+        panel.localScale = Vector3.zero; // start hidden
 
-        panel.DOScale(Vector3.one, popDuration).SetEase(Ease.OutBack)
+        // Tween to original scale instead of Vector3.one
+        panel.DOScale(panelOriginalScale, popDuration).SetEase(Ease.OutBack)
              .OnComplete(() =>
              {
                  StartCoroutine(PopStars(starsEarned));
              });
     }
+
 
     private IEnumerator PopStars(float starsEarned)
     {

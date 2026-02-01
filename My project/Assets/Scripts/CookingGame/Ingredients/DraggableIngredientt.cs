@@ -29,7 +29,7 @@ public class DraggableIngredientt : MonoBehaviour
     [Header("Stick")]
     public GameObject hostObject;
     public bool isHost => hostObject == null || hostObject == gameObject;
-    private float StickTimer = 1f;
+    private float StickTimer = .7f;
     private float stickProgress = 0f;
     private DraggableIngredientt pendingStickTarget = null;
 

@@ -156,8 +156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggableIngredient3D
   isDraggingItem: 0
   ingredientType: 4
-  followStrength: 20
-  maxDragSpeed: 10
+  followStrength: 40
+  maxDragSpeed: 20
   dragDrag: 10
   dragAngularDrag: 5
   hostObject: {fileID: 0}

@@ -17,11 +17,16 @@ public class SpawnCustomer : MonoBehaviour
     [SerializeField] Sprite mediumFace;
     [SerializeField] Sprite madFace;
 
-    [SerializeField] GameObject customer;
+    [SerializeField] GameObject happinessBar;
+    private Vector3 happinessBarOriginalScale;
+
     private Vector3 originalCustomerScale;
     [SerializeField] GameObject textBubble;
     private Vector3 textBubbleOriginalScale;
     [SerializeField] GameObject face;
+
+    [SerializeField] GameObject customer;
+    private Vector3 customerStartPosition;
 
     private Transform currentIngredients;
 
@@ -29,25 +34,32 @@ public class SpawnCustomer : MonoBehaviour
 
     private List<IngredientType> ingredientsWanted;
 
-    private float customerHappiness;
+    private static float customerHappiness;
     private float currCustomerHappiness = 3f;
-    private float currentCustomer = 0f;
+    private static float currentCustomer = 0f;
+    private float customerServeAmount = 8f;
 
-    private float customerAngerTime = 30f;
+    private float customerAngerTime = 85f;
     private float currCustomerTime;
     private bool angerReduced = false;
     private bool angerReduced2 = false;
 
     private bool customerActive = false;
 
+    [SerializeField] StarAnimate starAnimate;
+
     private Dictionary<Sprite, IngredientType> spriteToType;
     private void Start()
     {
+        happinessBarOriginalScale = happinessBar.transform.localScale;
         textBubbleOriginalScale = textBubble.transform.localScale;
         originalCustomerScale = customer.transform.localScale;
+        customer.SetActive(false);
+        customerStartPosition = customer.transform.position;
+        Debug.Log(customerStartPosition);
         textBubble.SetActive(false);
-        customer.SetActive(true);
         face.SetActive(false);
+        happinessBar.transform.parent.gameObject.SetActive(false);
 
         ingredientsWanted = new List<IngredientType>();
 
@@ -65,27 +77,15 @@ public class SpawnCustomer : MonoBehaviour
 
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.transform == transform)
-                {
-                    SpawnSpeachBubble();
-                    customerActive = true;
-                }
-            }
-        }
         if (customerActive)
         {
             currCustomerTime += Time.deltaTime;
-            if (currCustomerTime >= customerAngerTime && angerReduced == false)
+            if (currCustomerTime >= customerAngerTime/2 && angerReduced == false)
             {
                 currCustomerHappiness -= 1;
                 angerReduced = true;
             }
-            else if (currCustomerTime >= customerAngerTime + 10 && angerReduced2 == false)
+            else if (currCustomerTime >= customerAngerTime && angerReduced2 == false)
             {
                 currCustomerHappiness -= 1;
                 angerReduced2 = true;
@@ -175,32 +175,49 @@ public class SpawnCustomer : MonoBehaviour
     {
         if (textBubble.activeSelf)
         {
+            happinessBar.transform.parent.gameObject.SetActive(false);
+
             SpriteRenderer sr = face.GetComponent<SpriteRenderer>();
 
             sr.sprite = currCustomerHappiness >= 3 ? happyFace :
                         (currCustomerHappiness > 0 ? mediumFace : madFace);
-            Debug.Log(currCustomerTime);
             currCustomerTime = 0f;
             customerActive = false;
             angerReduced = false;
             angerReduced2 = false;
-            //show this and remove text bubble at the same time
             PopUpFace();
-            //say phrase
-            AddAndRemoveTextBubble(false);
-
-            //once popupface animation is done, play the customer remove animation
-            DOVirtual.DelayedCall(1f, () => RemoveAndShowCustomer(false));
-            //wait a second, then add the next customer
-            DOVirtual.DelayedCall(2f, () => RemoveAndShowCustomer(true));
-
-            //reset varfiables
+            AddAndRemoveSpriteSizeMethod(textBubble, textBubbleOriginalScale);
+            customerHappiness += currCustomerHappiness;
             currCustomerHappiness = 3f;
+            currentCustomer += 1;
             ingredientsWanted.Clear();
             foreach (Transform child in textBubble.transform)
             {
                 Destroy(child.gameObject);
             }
+            if (currentCustomer >= customerServeAmount)
+            {
+                float happinessPercentage = customerHappiness / (customerServeAmount * 3) * 100f;
+
+                float stars;
+                if (happinessPercentage >= 85f)
+                    stars = 3;
+                else if (happinessPercentage >= 75f)
+                    stars = 2;
+                else if (happinessPercentage >= 65f)
+                    stars = 1;
+                else
+                    stars = 0;
+
+                starAnimate.ShowUI(stars);
+                Debug.Log(happinessPercentage);
+                Debug.Log(customerHappiness);
+            }
+            DOVirtual.DelayedCall(1f, () => RemoveAndShowCustomer(false));
+
+            if (currentCustomer >= customerServeAmount - 2) return;
+
+            DOVirtual.DelayedCall(Random.Range(8,15), () => RemoveAndShowCustomer(true));
         }
     }
 
@@ -218,37 +235,37 @@ public class SpawnCustomer : MonoBehaviour
         faceSeq.Play();
     }
 
-    private void AddAndRemoveTextBubble(bool active)
+    private void AddAndRemoveSpriteSizeMethod(GameObject s, Vector3 os)
     {
-        if (active)
+        if (!s.activeSelf)
         {
             // Make sure it’s active
-            textBubble.SetActive(true);
+            s.SetActive(true);
 
             // Start smaller than original
-            textBubble.transform.localScale = textBubbleOriginalScale * 0.5f;
+            s.transform.localScale = os * 0.5f;
 
             // Animate pop to slightly bigger, then settle to original
-            textBubble.transform.DOScale(textBubbleOriginalScale * 1.1f, 0.3f)
+            s.transform.DOScale(os * 1.1f, 0.3f)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {
-                    textBubble.transform.DOScale(textBubbleOriginalScale, 0.2f)
+                    s.transform.DOScale(os, 0.2f)
                         .SetEase(Ease.InOutSine);
                 });
         }
         else
         {
             // Start at current scale (or full size)
-            textBubble.transform.localScale = textBubbleOriginalScale;
+            s.transform.localScale = os;
 
             // Animate shrink
-            textBubble.transform.DOScale(textBubbleOriginalScale * 0.5f, 0.3f)
+            s.transform.DOScale(os * 0.5f, 0.3f)
                 .SetEase(Ease.InBack)
                 .OnComplete(() =>
                 {
                     // Deactivate after animation
-                    textBubble.SetActive(false);
+                    s.SetActive(false);
                 });
         }
     }
@@ -256,19 +273,79 @@ public class SpawnCustomer : MonoBehaviour
 
 
 
-    private void RemoveAndShowCustomer(bool active)
+    public void RemoveAndShowCustomer(bool active)
     {
+        // Ensure the customer is active so it can move
         customer.SetActive(true);
 
-        Vector3 startPos = customer.transform.position;
-        Vector3 targetPos = startPos + (active ? Vector3.up * 5f : Vector3.down * 5f); // slide up or down
+        // Kill any previous tweens on the customer
+        customer.transform.DOKill();
+        Vector3 startPos = customerStartPosition; // Assign this at initialization
+        float exitDistance = 5f; // How far he moves down when exiting
 
-        customer.transform.position = active ? startPos - Vector3.up * 5f : startPos; // if showing, start below
+        if (active)
+        {
+            // Start below the start position
+            customer.transform.position = startPos - Vector3.up * exitDistance;
 
-        customer.transform.DOMove(targetPos, 0.5f).SetEase(Ease.OutBack)
-            .OnComplete(() =>
+            // Move up to start position
+            customer.transform.DOMove(startPos, 0.5f)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    // Trigger speech bubble and bar after reaching start position
+                    SpawnSpeachBubble();
+                    AnimateBar();
+                });
+
+            customerActive = true;
+        }
+        else
+        {
+            // Move customer down by exitDistance
+            Vector3 targetPos = customer.transform.position - Vector3.up * exitDistance;
+
+            customer.transform.DOMove(targetPos, 0.5f)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    customer.SetActive(false);
+                });
+
+            customerActive = false;
+        }
+    }
+
+
+
+    private void AnimateBar()
+    {
+        happinessBar.transform.parent.gameObject.SetActive(true);
+        // Reset scale & color
+        happinessBar.transform.localScale = happinessBarOriginalScale;
+        SpriteRenderer sr = happinessBar.GetComponent<SpriteRenderer>();
+        sr.color = Color.green;
+
+        // Tween the scale Y to 0
+        happinessBar.transform.DOScaleY(0, customerAngerTime)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() =>
             {
-                if (!active) customer.SetActive(false);
+                float t = happinessBar.transform.localScale.y / happinessBarOriginalScale.y; // 1 = full, 0 = empty
+
+                // Change color based on normalized value
+                if (t > 0.5f)
+                {
+                    sr.color = Color.Lerp(Color.orange, Color.green, (t - 0.5f) * 2f);
+                }
+                else
+                {
+                    sr.color = Color.Lerp(Color.red, Color.orange, t * 2f);
+                }
+                if (!customerActive)
+                {
+                    happinessBar.transform.DOKill();
+                }
             });
     }
 
@@ -276,7 +353,7 @@ public class SpawnCustomer : MonoBehaviour
     {
         if (!textBubble.activeSelf)
         {
-            AddAndRemoveTextBubble(true);
+            AddAndRemoveSpriteSizeMethod(textBubble, textBubbleOriginalScale);
 
             SpawnIngredientDialogue(topBunSprite);
 
@@ -304,7 +381,7 @@ public class SpawnCustomer : MonoBehaviour
         spriteRenderer.sprite = ingredientImage;
         spawnedIngredientImage.transform.parent = textBubble.transform;
         spriteRenderer.sortingOrder = 2;
-        spawnedIngredientImage.transform.localScale *= 0.6f;
+        spawnedIngredientImage.transform.localScale *= 0.2f;
         spriteUpdate.RefreshStack();
     }
 }
