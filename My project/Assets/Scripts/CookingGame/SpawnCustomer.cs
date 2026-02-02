@@ -355,17 +355,18 @@ public class SpawnCustomer : MonoBehaviour
         {
             AddAndRemoveSpriteSizeMethod(textBubble, textBubbleOriginalScale);
 
-            SpawnIngredientDialogue(topBunSprite);
+            SpawnIngredientDialogue(bottomBunSprite);
 
-            bool lettuce = Random.Range(0, 2) == 1;
-            if (lettuce) SpawnIngredientDialogue(lettuceSprite);
+            SpawnIngredientDialogue(burgerSprite);
 
             bool cheese = Random.Range(0, 2) == 1;
             if (cheese) SpawnIngredientDialogue(cheeseSprite);
 
-            SpawnIngredientDialogue(burgerSprite);
+            bool lettuce = Random.Range(0, 2) == 1;
+            if (lettuce) SpawnIngredientDialogue(lettuceSprite);
 
-            SpawnIngredientDialogue(bottomBunSprite);
+            SpawnIngredientDialogue(topBunSprite);
+
         }
     }
 
@@ -381,7 +382,15 @@ public class SpawnCustomer : MonoBehaviour
         spriteRenderer.sprite = ingredientImage;
         spawnedIngredientImage.transform.parent = textBubble.transform;
         spriteRenderer.sortingOrder = 2;
-        spawnedIngredientImage.transform.localScale *= 0.2f;
+        NormalizeSprite(spriteRenderer, 2f);
         spriteUpdate.RefreshStack();
     }
+
+    void NormalizeSprite(SpriteRenderer sr, float targetWorldSize)
+    {
+        float spriteSize = sr.sprite.bounds.size.y;
+        float scale = targetWorldSize / spriteSize;
+        sr.transform.localScale = Vector3.one * scale;
+    }
+
 }

@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b073d9658f90d0d4b94d5f585a30041b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteHorizontalLayout
-  spacing: 0.001
+  spacing: -0.3
 --- !u!212 &178393590
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -457,8 +457,8 @@ Transform:
   m_GameObject: {fileID: 210102496}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.45300007, y: -2.434, z: 10.576}
-  m_LocalScale: {x: 0.66412, y: 0.66412, z: 0.66412}
+  m_LocalPosition: {x: -2.648, y: -2.372, z: 10.576}
+  m_LocalScale: {x: 0.3001756, y: 0.3001756, z: 0.3001756}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 220484848}
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnIngredient
   ingredientPrefab: {fileID: 147523862577018026, guid: 05cdcb0fc4040704da011beabf3ce4d5, type: 3}
-  spawnOffsetX: -0.3
+  spawnOffsetX: -0.1
   spawnOffsetY: 0.4
   spawnCooldown: 1
   popScale: 1.15
@@ -500,8 +500,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0666666, y: 1.0666666, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: -0.0000009536743}
+  m_Size: {x: 2.852969, y: 2.0944343, z: 0.96500003}
+  m_Center: {x: -0.08451303, y: 0.27038422, z: 0.032949977}
 --- !u!212 &210102500
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -549,7 +549,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4cca1e3394881184da2197d78c8852f7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fbd806a044046844f8bbb2aabfeddb43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -645,11 +645,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca8c2f6fce87940978fbc469240ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnCustomer
-  burgerSprite: {fileID: 1355524286, guid: 980ed8c4707c61e4a8a2f6312ccde453, type: 3}
-  lettuceSprite: {fileID: 1202510460, guid: b45c91481e97eb941ae0a1559c051642, type: 3}
-  cheeseSprite: {fileID: -1104378355, guid: 4ef7f99a8bf408449a52ca32c034953d, type: 3}
-  topBunSprite: {fileID: -355544248, guid: 0c61418034739a44981908171b5e525d, type: 3}
-  bottomBunSprite: {fileID: 2069954428, guid: 4fb67a52e2b720d4590e0c9b76773cb2, type: 3}
+  burgerSprite: {fileID: -673940320, guid: a414b94070661894792195e6d8b0731b, type: 3}
+  lettuceSprite: {fileID: -1523936045, guid: 2f4ad065461da6a4b9784b1b48066c01, type: 3}
+  cheeseSprite: {fileID: -1425021232, guid: 8d33cd4dfa923a1479506eb80d9dc95e, type: 3}
+  topBunSprite: {fileID: -1111724265, guid: 26f713a51848db4408695dcd970852c8, type: 3}
+  bottomBunSprite: {fileID: -268641360, guid: 7550ad4b64ff6ab43a3ad2da25849669, type: 3}
   happyFace: {fileID: 21300000, guid: c642ad174e85c7a47b7bc80edea224cc, type: 3}
   mediumFace: {fileID: 21300000, guid: f16301067982be04daf5b8f1240dc5dc, type: 3}
   madFace: {fileID: 21300000, guid: a449b485d66395c40a80c8b5928018aa, type: 3}
@@ -1268,8 +1268,8 @@ Transform:
   m_GameObject: {fileID: 419648804}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.46, y: -2.434, z: 10.576}
-  m_LocalScale: {x: 0.66412, y: 0.66412, z: 0.66412}
+  m_LocalPosition: {x: -0.069, y: -2.408, z: 10.576}
+  m_LocalScale: {x: 0.3001756, y: 0.3001756, z: 0.3001756}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 220484848}
@@ -1287,7 +1287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnIngredient
   ingredientPrefab: {fileID: 2176542365429021230, guid: 544106003b45c304a952e4660f73fc45, type: 3}
-  spawnOffsetX: -0.15
+  spawnOffsetX: -0.3
   spawnOffsetY: 0.4
   spawnCooldown: 1
   popScale: 1.15
@@ -1311,8 +1311,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0666666, y: 1.0666666, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: -0.0000009536743}
+  m_Size: {x: 3.1366773, y: 1.9861588, z: 0.19999999}
+  m_Center: {x: -0.07447529, y: 0.30344605, z: -0.0000009535917}
 --- !u!212 &419648808
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1360,7 +1360,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4e4a99ab67c6d5444b93c9a99e6362ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ae9a76f3cf14e584990dc1df29c7b6d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1512,8 +1512,8 @@ Transform:
   m_GameObject: {fileID: 510364253}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.07, y: -2.434, z: 10.576}
-  m_LocalScale: {x: 0.66412, y: 0.66412, z: 0.66412}
+  m_LocalPosition: {x: -0.922, y: -2.408, z: 10.576}
+  m_LocalScale: {x: 0.3001756, y: 0.3001756, z: 0.3001756}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 220484848}
@@ -1531,7 +1531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnIngredient
   ingredientPrefab: {fileID: 5154415226559398448, guid: f130c41ff3fc1124e8f772e34a97753d, type: 3}
-  spawnOffsetX: -0.1
+  spawnOffsetX: -0.25
   spawnOffsetY: 0.4
   spawnCooldown: 1
   popScale: 1.15
@@ -1555,8 +1555,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0666666, y: 1.0666666, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: -0.0000009536743}
+  m_Size: {x: 2.9282393, y: 2.084751, z: 0.19999999}
+  m_Center: {x: -0.05384953, y: 0.34225175, z: -0.0000009535917}
 --- !u!212 &510364257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1604,7 +1604,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 73d308674b7d7c146ba55f0b72340039, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a9292f8d1a9e88449e16b403341e8e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b073d9658f90d0d4b94d5f585a30041b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteHorizontalLayout
-  spacing: 0.001
+  spacing: -0.3
 --- !u!212 &674873266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2367,11 +2367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca8c2f6fce87940978fbc469240ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnCustomer
-  burgerSprite: {fileID: 1355524286, guid: 980ed8c4707c61e4a8a2f6312ccde453, type: 3}
-  lettuceSprite: {fileID: 1202510460, guid: b45c91481e97eb941ae0a1559c051642, type: 3}
-  cheeseSprite: {fileID: -1104378355, guid: 4ef7f99a8bf408449a52ca32c034953d, type: 3}
-  topBunSprite: {fileID: -355544248, guid: 0c61418034739a44981908171b5e525d, type: 3}
-  bottomBunSprite: {fileID: 2069954428, guid: 4fb67a52e2b720d4590e0c9b76773cb2, type: 3}
+  burgerSprite: {fileID: -673940320, guid: a414b94070661894792195e6d8b0731b, type: 3}
+  lettuceSprite: {fileID: -1523936045, guid: 2f4ad065461da6a4b9784b1b48066c01, type: 3}
+  cheeseSprite: {fileID: -1425021232, guid: 8d33cd4dfa923a1479506eb80d9dc95e, type: 3}
+  topBunSprite: {fileID: -1111724265, guid: 26f713a51848db4408695dcd970852c8, type: 3}
+  bottomBunSprite: {fileID: -268641360, guid: 7550ad4b64ff6ab43a3ad2da25849669, type: 3}
   happyFace: {fileID: 21300000, guid: c642ad174e85c7a47b7bc80edea224cc, type: 3}
   mediumFace: {fileID: 21300000, guid: f16301067982be04daf5b8f1240dc5dc, type: 3}
   madFace: {fileID: 21300000, guid: a449b485d66395c40a80c8b5928018aa, type: 3}
@@ -2408,8 +2408,8 @@ Transform:
   m_GameObject: {fileID: 1109371256}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.81, y: -2.434, z: 10.576}
-  m_LocalScale: {x: 0.66412, y: 0.66412, z: 0.66412}
+  m_LocalPosition: {x: -3.551, y: -2.408, z: 10.576}
+  m_LocalScale: {x: 0.3001756, y: 0.3001756, z: 0.3001756}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 220484848}
@@ -2427,7 +2427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnIngredient
   ingredientPrefab: {fileID: 4927447032499886061, guid: 9e29eb05221b97043b036013cf3e6211, type: 3}
-  spawnOffsetX: -0.22
+  spawnOffsetX: 0
   spawnOffsetY: 0.4
   spawnCooldown: 1
   popScale: 1.15
@@ -2451,8 +2451,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0666666, y: 1.0666666, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: -0.0000009536743}
+  m_Size: {x: 2.6963751, y: 2.245841, z: 0.19999999}
+  m_Center: {x: -0.07232659, y: 0.50336254, z: -0.0000009535917}
 --- !u!212 &1109371260
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2500,7 +2500,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 4ce6807f48d436847b71e61be59899f2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 816b8dab46ef4c548b17ea4d96f0fd8c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2651,7 +2651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b073d9658f90d0d4b94d5f585a30041b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteHorizontalLayout
-  spacing: 0.001
+  spacing: -0.3
 --- !u!212 &1150154283
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2961,7 +2961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e3ec38b1fe74b438461b8bd8b7712d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CookItem
-  cookedBurger: {fileID: 1355524286, guid: 980ed8c4707c61e4a8a2f6312ccde453, type: 3}
+  cookedBurger: {fileID: -673940320, guid: a414b94070661894792195e6d8b0731b, type: 3}
   burntBurger: {fileID: 21300000, guid: 4141d12affb6e394e83d1850c4188ecd, type: 3}
   cookDuration: 10
   cooking: 0
@@ -3171,6 +3171,27 @@ PrefabInstance:
     - target: {fileID: 896565878961593268, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453178112245619061, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8375285
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453178112245619061, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8375285
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453178112245619061, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8375285
+      objectReference: {fileID: 0}
+    - target: {fileID: 1453178112245619061, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 6.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352854037879902255, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
+      propertyPath: m_text
+      value: Any professional chefs train their sense of taste so well that they
+        can identify dozens of ingredients in a dish just by one bite.
       objectReference: {fileID: 0}
     - target: {fileID: 3780536897944183916, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_LocalScale.x
@@ -3399,11 +3420,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca8c2f6fce87940978fbc469240ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnCustomer
-  burgerSprite: {fileID: 1355524286, guid: 980ed8c4707c61e4a8a2f6312ccde453, type: 3}
-  lettuceSprite: {fileID: 1202510460, guid: b45c91481e97eb941ae0a1559c051642, type: 3}
-  cheeseSprite: {fileID: -1104378355, guid: 4ef7f99a8bf408449a52ca32c034953d, type: 3}
-  topBunSprite: {fileID: -355544248, guid: 0c61418034739a44981908171b5e525d, type: 3}
-  bottomBunSprite: {fileID: 2069954428, guid: 4fb67a52e2b720d4590e0c9b76773cb2, type: 3}
+  burgerSprite: {fileID: -673940320, guid: a414b94070661894792195e6d8b0731b, type: 3}
+  lettuceSprite: {fileID: -1523936045, guid: 2f4ad065461da6a4b9784b1b48066c01, type: 3}
+  cheeseSprite: {fileID: -1425021232, guid: 8d33cd4dfa923a1479506eb80d9dc95e, type: 3}
+  topBunSprite: {fileID: -1111724265, guid: 26f713a51848db4408695dcd970852c8, type: 3}
+  bottomBunSprite: {fileID: -268641360, guid: 7550ad4b64ff6ab43a3ad2da25849669, type: 3}
   happyFace: {fileID: 21300000, guid: c642ad174e85c7a47b7bc80edea224cc, type: 3}
   mediumFace: {fileID: 21300000, guid: f16301067982be04daf5b8f1240dc5dc, type: 3}
   madFace: {fileID: 21300000, guid: a449b485d66395c40a80c8b5928018aa, type: 3}
@@ -3908,7 +3929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e3ec38b1fe74b438461b8bd8b7712d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CookItem
-  cookedBurger: {fileID: 1355524286, guid: 980ed8c4707c61e4a8a2f6312ccde453, type: 3}
+  cookedBurger: {fileID: -673940320, guid: a414b94070661894792195e6d8b0731b, type: 3}
   burntBurger: {fileID: 21300000, guid: 4141d12affb6e394e83d1850c4188ecd, type: 3}
   cookDuration: 10
   cooking: 0
@@ -4051,8 +4072,8 @@ Transform:
   m_GameObject: {fileID: 1930370031}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.17000008, y: -2.434, z: 10.576}
-  m_LocalScale: {x: 0.66412, y: 0.66412, z: 0.66412}
+  m_LocalPosition: {x: -1.775, y: -2.408, z: 10.576}
+  m_LocalScale: {x: 0.3001756, y: 0.3001756, z: 0.3001756}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 220484848}
@@ -4070,7 +4091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnIngredient
   ingredientPrefab: {fileID: 3846818181273050454, guid: a546ddb181f63f24ea8567e0dcf0aaad, type: 3}
-  spawnOffsetX: -0.3
+  spawnOffsetX: -0.15
   spawnOffsetY: 0.4
   spawnCooldown: 1
   popScale: 1.15
@@ -4094,8 +4115,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0666666, y: 1.0666666, z: 0.19999999}
-  m_Center: {x: 0, y: 0, z: -0.0000009536743}
+  m_Size: {x: 2.8945165, y: 2.098706, z: 0.19999999}
+  m_Center: {x: -0.107922174, y: 0.3131979, z: -0.0000009535917}
 --- !u!212 &1930370035
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4143,7 +4164,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 26e51e272b35734458b980545ff9b21f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c63a3ca059ca67144a5a690398402865, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

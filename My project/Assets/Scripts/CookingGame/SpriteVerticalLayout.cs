@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VerticalSpriteLayout : MonoBehaviour
 {
@@ -18,14 +18,13 @@ public class VerticalSpriteLayout : MonoBehaviour
             totalHeight += height;
         }
 
-        // Add spacing between each ingredient
         int ingredientCount = transform.childCount;
         totalHeight += spacing * Mathf.Max(ingredientCount - 1, 0);
 
-        // Step 2: Determine starting Y position (top of stack)
-        float yOffset = totalHeight / 2f; // start from half the stack above parent pivot
+        // Step 2: Start at the BOTTOM of the stack
+        float yOffset = -totalHeight / 2f;
 
-        // Step 3: Position each child
+        // Step 3: Position each child bottom → top
         foreach (Transform child in transform)
         {
             SpriteRenderer sr = child.GetComponent<SpriteRenderer>();
@@ -33,11 +32,11 @@ public class VerticalSpriteLayout : MonoBehaviour
 
             float height = sr.sprite.bounds.size.y * child.localScale.y;
 
-            // Place the child so its center is offset from yOffset by half its height
-            child.localPosition = new Vector3(0f, yOffset - height / 2f, 0f);
+            // Place child centered above current offset
+            child.localPosition = new Vector3(0f, yOffset + height / 2f, 0f);
 
-            // Move yOffset down by the child height + spacing
-            yOffset -= height + spacing;
+            // Move yOffset UP
+            yOffset += height + spacing;
         }
     }
 }

@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.118, y: -1.98, z: 5}
-  m_LocalScale: {x: 0.5187833, y: 0.5187833, z: 0.5187833}
+  m_LocalScale: {x: 0.032726407, y: 0.032726407, z: 0.032726407}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,12 +84,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: b554d996b70926045b29cd79022d5b87, type: 3}
+  m_Sprite: {fileID: -1015447416, guid: a98de100c2899754f9113575b98aac0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.0666667, y: 1.0666667}
+  m_Size: {x: 16.7, y: 4.7400002}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -121,7 +121,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 56
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &1269735864885722775
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,8 +141,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6886001, y: 0.23986045, z: 0.20000012}
-  m_Center: {x: 0.01150991, y: 0.04374503, z: 0}
+  m_Size: {x: 16.686987, y: 1.8385563, z: 3.517195}
+  m_Center: {x: -0.06550128, y: -0.9144298, z: -0.0017848752}
 --- !u!114 &7282988795069606888
 MonoBehaviour:
   m_ObjectHideFlags: 0
