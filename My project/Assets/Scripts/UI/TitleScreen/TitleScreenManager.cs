@@ -1,14 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TitleScreenManager : MonoBehaviour
 {
+    private static bool titleScreenOpened = false;
+
     [Header("UI Game Objects")]
 
     [SerializeField] GameObject creditsPopup;
     [SerializeField] GameObject titleScreenCanvas;
     [SerializeField] GameObject Buttons;
+    [SerializeField] Image blackCover; 
 
     [Header("Game Setup")]
     [SerializeField] Camera titleScreenCam;
@@ -33,6 +38,20 @@ public class TitleScreenManager : MonoBehaviour
 
         creditsPopup.SetActive(false);
         creditsRect.localScale = normalScale * closedScale;
+
+        blackCover.color = new Color(0, 0, 0, 0);
+        Canvas canvas = blackCover.transform.parent.gameObject.GetComponent<Canvas>();
+        canvas.overrideSorting = true;
+        canvas.sortingOrder = 999;
+
+        if (titleScreenOpened)
+        {
+            titleScreenCam.gameObject.SetActive(false);
+            PlayerCam.gameObject.SetActive(true);
+            Player.SetActive(true);
+            titleScreenCanvas.SetActive(false);
+            this.enabled = false;
+        }
     }
 
     public void OpenCredits()
@@ -56,31 +75,33 @@ public class TitleScreenManager : MonoBehaviour
             });
     }
 
-public void playClicked()
-{
-    float fadeDuration = 0.5f;
-
-    CanvasGroup[] canvasGroups = Buttons.GetComponentsInChildren<CanvasGroup>(true);
-
-    foreach (Transform child in Buttons.transform)
+    public void playClicked()
     {
-        CanvasGroup cg = child.GetComponent<CanvasGroup>();
-        if (cg == null)
-            cg = child.gameObject.AddComponent<CanvasGroup>();
+        float fadeDuration = 0.5f;
 
-        cg.DOFade(0f, fadeDuration);
-    }
+        titleScreenOpened = true;
 
-        titleScreenCam.gameObject.SetActive(false);
-        PlayerCam.gameObject.SetActive(true);
-        Player.SetActive(true);
-
-    DOVirtual.DelayedCall(fadeDuration, () =>
-    {
-        titleScreenCanvas.SetActive(false);
-    });
+        StartCoroutine(FadeBlack(1f, fadeDuration));
 }
 
+    IEnumerator FadeBlack(float targetAlpha, float duration)
+    {
+        blackCover.gameObject.SetActive(true);
+        float startAlpha = blackCover.color.a;
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            float alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
+            blackCover.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+
+        blackCover.color = new Color(0, 0, 0, targetAlpha);
+        SceneManager.LoadScene("intro");
+
+    }
 
     public void QuitGame()
     {
