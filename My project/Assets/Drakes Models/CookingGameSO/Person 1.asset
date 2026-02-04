@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e20c594d2d57e44bd6167ec3416cc5, type: 3}
+  m_Name: Person 1
+  m_EditorClassIdentifier: Assembly-CSharp::PersonData
+  personNum: 3
+  faces:
+  - {fileID: 21300000, guid: d66e91e5e3942ab4da87e85dd3811c13, type: 3}
+  - {fileID: 21300000, guid: b233c5637b546e745b56e1a650eeb2b0, type: 3}
+  - {fileID: 21300000, guid: 2bebdc33105d0a143ba18448213952ec, type: 3}

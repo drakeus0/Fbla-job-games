@@ -22,7 +22,7 @@ public class SwitchAnimation : MonoBehaviour
     void Start()
     {
         // Initialize UI
-        UpdateSwitchUI(false, instant: true);
+        UpdateSwitchUI(true, instant: false);
     }
 
     public void ToggleSwitch()
@@ -33,19 +33,16 @@ public class SwitchAnimation : MonoBehaviour
 
     private void UpdateSwitchUI(bool turnOn, bool instant = false)
     {
-        // Animate background color
         if (instant)
             switchBackground.color = turnOn ? onColor : offColor;
         else
             switchBackground.DOColor(turnOn ? onColor : offColor, animationDuration);
 
-        // Animate thumb position
         if (instant)
             switchThumb.anchoredPosition = turnOn ? thumbOnPosition : thumbOffPosition;
         else
             switchThumb.DOAnchorPos(turnOn ? thumbOnPosition : thumbOffPosition, animationDuration).SetEase(Ease.InOutQuad);
 
-        // Update text
         switchText.text = turnOn ? "ON" : "OFF";
     }
 }

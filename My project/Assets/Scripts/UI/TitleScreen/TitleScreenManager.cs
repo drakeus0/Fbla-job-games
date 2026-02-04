@@ -11,6 +11,7 @@ public class TitleScreenManager : MonoBehaviour
     [Header("UI Game Objects")]
 
     [SerializeField] GameObject creditsPopup;
+    [SerializeField] GameObject settingsPopup;
     [SerializeField] GameObject titleScreenCanvas;
     [SerializeField] GameObject Buttons;
     [SerializeField] Image blackCover; 
@@ -20,24 +21,33 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] Camera PlayerCam;
     [SerializeField] GameObject Player;
 
-    [Header("Credits Animation")]
+    [Header("Popup Animation")]
     [SerializeField] float closedScale = 0.6f;
     [SerializeField] float popDuration = 0.25f;
     [SerializeField] Ease openEase = Ease.OutCubic;
     [SerializeField] Ease closeEase = Ease.InCubic;
 
     private RectTransform creditsRect;
-    private Vector3 normalScale;
+    private RectTransform settingsRect;
+    private Vector3 creditNormalScale;
+    private Vector3 settingsNormalScale;
 
     void Start()
     {
         Player.SetActive(false);
 
         creditsRect = creditsPopup.GetComponent<RectTransform>();
-        normalScale = creditsRect.localScale;
+        creditNormalScale = creditsRect.localScale;
 
         creditsPopup.SetActive(false);
-        creditsRect.localScale = normalScale * closedScale;
+        creditsRect.localScale = creditNormalScale * closedScale;
+
+        settingsRect = settingsPopup.GetComponent<RectTransform>();
+        settingsNormalScale = settingsRect.localScale;
+
+        settingsPopup.SetActive(false);
+        settingsRect.localScale = settingsNormalScale * closedScale;
+
 
         blackCover.color = new Color(0, 0, 0, 0);
         Canvas canvas = blackCover.transform.parent.gameObject.GetComponent<Canvas>();
@@ -58,20 +68,41 @@ public class TitleScreenManager : MonoBehaviour
     {
         creditsPopup.SetActive(true);
 
-        creditsRect.localScale = normalScale * closedScale;
+        creditsRect.localScale = creditNormalScale * closedScale;
         creditsRect
-            .DOScale(normalScale, popDuration)
+            .DOScale(creditNormalScale, popDuration)
             .SetEase(openEase);
     }
 
     public void CloseCredits()
     {
         creditsRect
-            .DOScale(normalScale * closedScale, popDuration)
+            .DOScale(creditNormalScale * closedScale, popDuration)
             .SetEase(closeEase)
             .OnComplete(() =>
             {
                 creditsPopup.SetActive(false);
+            });
+    }
+
+        public void OpenSettings()
+    {
+        settingsPopup.SetActive(true);
+
+        settingsRect.localScale = settingsNormalScale * closedScale;
+        settingsRect
+            .DOScale(settingsNormalScale, popDuration)
+            .SetEase(openEase);
+    }
+
+    public void CloseSettings()
+    {
+        settingsRect
+            .DOScale(settingsNormalScale * closedScale, popDuration)
+            .SetEase(closeEase)
+            .OnComplete(() =>
+            {
+                settingsPopup.SetActive(false);
             });
     }
 

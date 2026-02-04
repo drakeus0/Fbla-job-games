@@ -7,6 +7,8 @@ using UnityGLTF.Interactivity.Schema;
 
 public class SpawnCustomer : MonoBehaviour
 {
+
+    [SerializeField] List<PersonData> peopleSprites;
     [SerializeField] Sprite burgerSprite;
     [SerializeField] Sprite lettuceSprite;
     [SerializeField] Sprite cheeseSprite;
@@ -23,7 +25,6 @@ public class SpawnCustomer : MonoBehaviour
     private Vector3 originalCustomerScale;
     [SerializeField] GameObject textBubble;
     private Vector3 textBubbleOriginalScale;
-    [SerializeField] GameObject face;
 
     [SerializeField] GameObject customer;
     private Vector3 customerStartPosition;
@@ -48,9 +49,12 @@ public class SpawnCustomer : MonoBehaviour
 
     [SerializeField] StarAnimate starAnimate;
 
+    private int currentCustomerSprite;
+
     private Dictionary<Sprite, IngredientType> spriteToType;
     private void Start()
     {
+
         happinessBarOriginalScale = happinessBar.transform.localScale;
         textBubbleOriginalScale = textBubble.transform.localScale;
         originalCustomerScale = customer.transform.localScale;
@@ -58,7 +62,6 @@ public class SpawnCustomer : MonoBehaviour
         customerStartPosition = customer.transform.position;
         Debug.Log(customerStartPosition);
         textBubble.SetActive(false);
-        face.SetActive(false);
         happinessBar.transform.parent.gameObject.SetActive(false);
 
         ingredientsWanted = new List<IngredientType>();
@@ -177,15 +180,15 @@ public class SpawnCustomer : MonoBehaviour
         {
             happinessBar.transform.parent.gameObject.SetActive(false);
 
-            SpriteRenderer sr = face.GetComponent<SpriteRenderer>();
+            SpriteRenderer sr = customer.GetComponent<SpriteRenderer>();
+            int faceIndex = currCustomerHappiness >= 3 ? 0 :
+                        (currCustomerHappiness > 0 ? 1 : 2);
+customer.GetComponent<SpriteRenderer>().sprite = peopleSprites[currentCustomerSprite].faces[faceIndex];
 
-            sr.sprite = currCustomerHappiness >= 3 ? happyFace :
-                        (currCustomerHappiness > 0 ? mediumFace : madFace);
             currCustomerTime = 0f;
             customerActive = false;
             angerReduced = false;
             angerReduced2 = false;
-            PopUpFace();
             AddAndRemoveSpriteSizeMethod(textBubble, textBubbleOriginalScale);
             customerHappiness += currCustomerHappiness;
             currCustomerHappiness = 3f;
@@ -210,8 +213,6 @@ public class SpawnCustomer : MonoBehaviour
                     stars = 0;
 
                 starAnimate.ShowUI(stars);
-                Debug.Log(happinessPercentage);
-                Debug.Log(customerHappiness);
             }
             DOVirtual.DelayedCall(1f, () => RemoveAndShowCustomer(false));
 
@@ -221,25 +222,11 @@ public class SpawnCustomer : MonoBehaviour
         }
     }
 
-    private void PopUpFace()
-    {
-        face.SetActive(true);
-        SpriteRenderer faceRenderer = face.GetComponent<SpriteRenderer>();
-        faceRenderer.color = new Color(1, 1, 1, 0); // start transparent
-
-        Sequence faceSeq = DOTween.Sequence();
-        faceSeq.Append(faceRenderer.DOFade(1f, 0.3f));   // fade in
-        faceSeq.AppendInterval(0.5f);                     // hold
-        faceSeq.Append(faceRenderer.DOFade(0f, 0.3f));   // fade out
-        faceSeq.OnComplete(() => face.SetActive(false));
-        faceSeq.Play();
-    }
-
     private void AddAndRemoveSpriteSizeMethod(GameObject s, Vector3 os)
     {
         if (!s.activeSelf)
         {
-            // Make sure it’s active
+            // Make sure itï¿½s active
             s.SetActive(true);
 
             // Start smaller than original
@@ -286,6 +273,11 @@ public class SpawnCustomer : MonoBehaviour
         if (active)
         {
             // Start below the start position
+            int randomCustomerNumber = Random.Range(0, peopleSprites.Count);
+            PersonData customerChosen = peopleSprites[randomCustomerNumber];
+            currentCustomerSprite = randomCustomerNumber;
+            customer.GetComponent<SpriteRenderer>().sprite = customerChosen.faces[1];
+
             customer.transform.position = startPos - Vector3.up * exitDistance;
 
             // Move up to start position
