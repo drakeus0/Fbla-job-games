@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5257483993769292002}
   - component: {fileID: 4805309675049687127}
   - component: {fileID: 7149242611948250722}
-  - component: {fileID: 5137807801735698279}
   - component: {fileID: 2913928407902116072}
   - component: {fileID: 7766504067195522237}
+  - component: {fileID: 5137807801735698279}
+  - component: {fileID: 1441132454764231193}
   m_Layer: 6
   m_Name: BottomBun
   m_TagString: Untagged
@@ -121,27 +122,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 1
---- !u!65 &5137807801735698279
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5154415226559398448}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 3.2779818, y: 0.3760614, z: 0.20000012}
-  m_Center: {x: 0.016606014, y: -0.31657004, z: 0}
 --- !u!114 &2913928407902116072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,3 +153,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d190a93fd4e5b148ad622b418c99d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IngredientCollisionHost
+--- !u!65 &5137807801735698279
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5154415226559398448}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.8939834, y: 0.3760614, z: 0.20000012}
+  m_Center: {x: -0.0017047139, y: -0.31657004, z: 0}
+--- !u!65 &1441132454764231193
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5154415226559398448}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6881485, y: 0.95060605, z: 1}
+  m_Center: {x: -0.008257264, y: 0.024696952, z: 0}

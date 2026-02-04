@@ -64,19 +64,30 @@ public class DraggableIngredientt : MonoBehaviour
         if (!Mouse.current.leftButton.isPressed || currentlyDragged != null || isDraggingItem)
             return;
 
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        // Convert mouse to world point
+        Vector3 mousePos = Mouse.current.position.ReadValue();
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Mathf.Abs(mainCamera.transform.position.z - transform.position.z)));
 
-        if (GetComponent<Collider>().Raycast(ray, out _, Mathf.Infinity))
-            //if this object isnt the top of a stack, make the parent handle the dragging
-            if (isHost)
+        // Use a tiny overlap box to detect trigger colliders
+        Collider[] hits = Physics.OverlapBox(
+            worldPoint,
+            Vector3.one * 0.01f,
+            Quaternion.identity,
+            LayerMask.GetMask("CookingGameIngredient")
+        );
+        if (hits.Length > 0)
+        {
+            DraggableIngredientt draggable = hits[0].GetComponent<DraggableIngredientt>();
+            if (draggable != null)
             {
-                PickUp();
+                if (draggable.isHost)
+                    draggable.PickUp();
+                else if (draggable.hostObject != null)
+                    draggable.hostObject.GetComponent<DraggableIngredientt>().PickUp();
             }
-            else if (hostObject != null)
-            {
-                hostObject.GetComponent<DraggableIngredientt>().PickUp();
-            }
+        }
     }
+
 
     private void HandleDrop()
     {
@@ -176,7 +187,6 @@ public class DraggableIngredientt : MonoBehaviour
         }
 
         stickProgress += Time.deltaTime;
-
         if (stickProgress >= StickTimer)
         {
             StickWith(pendingStickTarget);
@@ -195,30 +205,34 @@ public class DraggableIngredientt : MonoBehaviour
 
         if (myHost == otherHost) return;
 
+        // Decide which is final host (smaller instance ID for consistency)
         GameObject finalHost = myHost.GetInstanceID() < otherHost.GetInstanceID() ? myHost : otherHost;
         GameObject childStack = finalHost == myHost ? otherHost : myHost;
 
         childStack.transform.SetParent(finalHost.transform);
 
+        // Update host references recursively
         UpdateHostRecursive(childStack.transform, finalHost);
 
+        // Update layers recursively based on stack order
+        UpdateLayerRecursive(finalHost.transform, 2); 
+
+        // Stick the child stack
         DraggableIngredientt childStackScript = childStack.GetComponent<DraggableIngredientt>();
         if (childStackScript != null)
-        {
             childStackScript.StickToHost(finalHost);
-        }
 
-        //if it can be cooked, disable it because its in a stack now
+        // Disable cookable if in a stack
         var cookable = GetComponent<CookableIngredient>();
         if (cookable != null)
             cookable.enabled = false;
 
+        // Set host reference
         DraggableIngredientt finalHostScript = finalHost.GetComponent<DraggableIngredientt>();
         if (finalHostScript != null)
-        {
             finalHostScript.hostObject = finalHost;
-        }
     }
+
 
     private void UpdateHostRecursive(Transform root, GameObject host)
     {
@@ -229,6 +243,24 @@ public class DraggableIngredientt : MonoBehaviour
         foreach (Transform child in root)
             UpdateHostRecursive(child, host);
     }
+
+    private void UpdateLayerRecursive(Transform root, int baseLayer)
+    {
+        if (!root.GetComponent<DraggableIngredientt>().isDraggingItem)
+        {
+            root.gameObject.GetComponent<SpriteRenderer>().sortingOrder = baseLayer;
+        }
+
+        int childCount = root.childCount;
+        int childLayer = baseLayer + 1;
+        foreach (Transform child in root)
+        {
+            UpdateLayerRecursive(child, childLayer);
+            childLayer++;
+            Debug.Log(childLayer);
+        }
+    }
+
 
     private void StickToHost(GameObject host)
     {

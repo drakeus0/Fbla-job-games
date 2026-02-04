@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 2675987988454702038}
   - component: {fileID: 671594076160974777}
   - component: {fileID: 4282351130602797146}
-  - component: {fileID: 1269735864885722775}
   - component: {fileID: 7282988795069606888}
   - component: {fileID: 585725890261061517}
   - component: {fileID: 9212956028987216842}
+  - component: {fileID: 1269735864885722775}
+  - component: {fileID: 2965582991684174731}
   m_Layer: 6
   m_Name: Burger
   m_TagString: Untagged
@@ -122,27 +123,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 1
---- !u!65 &1269735864885722775
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4927447032499886061}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 16.686987, y: 1.8385563, z: 3.517195}
-  m_Center: {x: -0.06550128, y: -0.9144298, z: -0.0017848752}
 --- !u!114 &7282988795069606888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,3 +169,45 @@ MonoBehaviour:
   cookState: 0
   cookTimer: 0
   knockOffForce: 2.5
+--- !u!65 &1269735864885722775
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4927447032499886061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 15.355375, y: 1.8385563, z: 3.5171947}
+  m_Center: {x: 0.11127703, y: -0.91442966, z: -0.0017847866}
+--- !u!65 &2965582991684174731
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4927447032499886061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 15.039694, y: 4.384825, z: 1}
+  m_Center: {x: 0.100558996, y: 0.033200905, z: 0}

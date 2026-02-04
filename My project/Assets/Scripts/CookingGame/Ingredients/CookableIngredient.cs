@@ -60,6 +60,7 @@ public class CookableIngredient : MonoBehaviour
 
     private void OnDropped()
     {
+        Debug.Log(touchingStove);
         if (!touchingStove || stove == null || stove.cooking)
             return;
 
@@ -107,6 +108,7 @@ public class CookableIngredient : MonoBehaviour
         CookItem cookItem = other.GetComponent<CookItem>();
         if (cookItem != null && !cookItem.cooking)
         {
+            Debug.Log("TOUCHING STOVE");
             stove = cookItem;
             cookSpotPos = other.transform.position;
             touchingStove = true;
@@ -117,7 +119,7 @@ public class CookableIngredient : MonoBehaviour
     {
         if (!other.CompareTag("CookingGameStove"))
             return;
-
+        Debug.Log("STOPPED TOUCHING STOVE");
         touchingStove = false;
 
         if (!isCooking)
