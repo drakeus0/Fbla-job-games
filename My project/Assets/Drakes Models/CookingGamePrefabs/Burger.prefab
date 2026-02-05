@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.118, y: -1.98, z: 5}
-  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -168,7 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CookableIngredient
   cookState: 0
   cookTimer: 0
-  knockOffForce: 2.5
+  triggerCollider: {fileID: 1269735864885722775}
+  knockOffImpulse: 2.5
 --- !u!65 &1269735864885722775
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -209,5 +210,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 15.039694, y: 4.384825, z: 1}
-  m_Center: {x: 0.100558996, y: 0.033200905, z: 0}
+  m_Size: {x: 15.039711, y: 4.384825, z: 4.4458632}
+  m_Center: {x: 0.100559, y: 0.03320103, z: -0.11363427}

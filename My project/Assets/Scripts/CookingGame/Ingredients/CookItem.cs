@@ -8,12 +8,13 @@ public class CookItem : MonoBehaviour
 
     private CookableIngredient currentItem;
     public bool cooking;
+    public Transform CookPoint;
 
     private void Update()
     {
         if (!cooking || currentItem == null)
             return;
-
+        Debug.Log("Cooking");
         currentItem.cookTimer += Time.deltaTime;
 
         if (currentItem.cookTimer >= cookDuration * 2f)
