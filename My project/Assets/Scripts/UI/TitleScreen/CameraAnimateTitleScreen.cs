@@ -64,7 +64,6 @@ public class CameraAnimateTitleScreen : MonoBehaviour
     IEnumerator PanWithFade(Vector3 startPos, Vector3 endPos, Vector3 rotation)
     {
         float t = 0f;
-
         transform.position = startPos;
         transform.rotation = Quaternion.Euler(rotation);
 
