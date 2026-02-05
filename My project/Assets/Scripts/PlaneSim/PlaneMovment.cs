@@ -18,9 +18,17 @@ public class PlaneMovement : MonoBehaviour
 
     float horizontalInput;
     float verticalInput;
+
+    [Header("UI Prompts")]
     [SerializeField] GameObject flightControlsPrompt;
     [SerializeField] float flightPromptDuration = 5f;
     bool flightPromptShown = false;
+
+    [Header("Airspeed Gauge")]
+    [SerializeField] private UIAirspeedGauge airspeedGauge;
+
+    [Tooltip("What the gauge should read when the plane is at maxFlySpeed (ex: 200).")]
+    [SerializeField] private float gaugeMaxKnots = 200f;
 
     [Header("Rotation")]
     public float yawSpeed = 90f;
@@ -41,21 +49,32 @@ public class PlaneMovement : MonoBehaviour
     public GameObject takeoffText;
 
     [Header("Crash / Out of Energy")]
-    public float outOfEnergyDivePitch = 55f;
-    public float outOfEnergyForwardSpeed = 30f;
+    public float outOfEnergyDivePitch = 35f;        // try 25–40 for a “dive forward” feel
+    public float outOfEnergyForwardSpeed = 35f;     // bump this up if you want more glide
     public float crashStopY = 0f;
+
+    [Tooltip("Downward fall speed (scaled by currentSpeed). 0.3 = shallow glide, 1.0 = steep fall.")]
+    public float diveDownMultiplier = 0.6f;
 
     bool outOfEnergy = false;
     float lockedDiveYaw;
 
-    [Header("Crash Terrain Block")]
-    public Terrain crashTerrain;          // drag CrashTerrain here
-    public float crashTerrainY = 0f;      // usually 0
-    public Vector3 crashTerrainOffset;    // e.g. (0,0,200) if you want it ahead
+    [Header("Crash Ground Plane (instead of Terrain)")]
+    public GameObject crashGroundPlane;     // drag a big Plane object here
+    public float crashGroundY = 0f;         // usually 0
+    public Vector3 crashGroundOffset;       // e.g. (0,0,200) if you want it ahead
     public bool followPlaneWhileDiving = true;
 
     [Header("Disable plane collider during dive (prevents spin-outs)")]
     public bool disablePlaneColliderOnDive = true;
+
+    [Header("Takeoff Gate (Tutorial UI)")]
+    [SerializeField] bool requireTutorialComplete = true;
+
+    [Tooltip("Optional: parent object that contains the whole tutorial UI. If it gets disabled, takeoff is allowed.")]
+    [SerializeField] GameObject tutorialUIRoot;
+
+    bool tutorialComplete = false;
 
     public RunStatsUI runUI;
 
@@ -66,6 +85,8 @@ public class PlaneMovement : MonoBehaviour
 
     IEnumerator ShowFlightControlsPrompt()
     {
+        if (flightControlsPrompt == null) yield break;
+
         flightControlsPrompt.SetActive(true);
         yield return new WaitForSeconds(flightPromptDuration);
         flightControlsPrompt.SetActive(false);
@@ -81,14 +102,21 @@ public class PlaneMovement : MonoBehaviour
         if (takeoffText != null)
             takeoffText.SetActive(true);
 
-        // Make sure crash terrain starts hidden (so you only see it when needed)
-        if (crashTerrain != null)
-            crashTerrain.gameObject.SetActive(false);
+        if (crashGroundPlane != null)
+            crashGroundPlane.SetActive(false);
+
+        // Initialize gauge at 0
+        UpdateAirspeedGauge(0f);
     }
 
     void Update()
     {
-        bool takeoffHeld = Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed;
+        if (!tutorialComplete && tutorialUIRoot != null && !tutorialUIRoot.activeInHierarchy)
+            tutorialComplete = true;
+
+        bool takeoffHeld =
+            (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed)
+            && CanTakeOff();
 
         switch (flightState)
         {
@@ -102,6 +130,9 @@ public class PlaneMovement : MonoBehaviour
     {
         currentSpeed = 0f;
 
+        // Keep gauge at 0 on the ground
+        UpdateAirspeedGauge(currentSpeed);
+
         if (takeoffHeld)
         {
             flightState = FlightState.TakingOff;
@@ -109,6 +140,20 @@ public class PlaneMovement : MonoBehaviour
             if (takeoffText != null)
                 takeoffText.SetActive(false);
         }
+    }
+
+    bool CanTakeOff()
+    {
+        if (!requireTutorialComplete) return true;
+        return tutorialComplete;
+    }
+
+    public void MarkTutorialComplete()
+    {
+        tutorialComplete = true;
+
+        if (tutorialUIRoot != null)
+            tutorialUIRoot.SetActive(false);
     }
 
     void HandleTakeoff()
@@ -121,6 +166,9 @@ public class PlaneMovement : MonoBehaviour
         transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, 0f);
 
         transform.position += transform.forward * currentSpeed * Time.deltaTime;
+
+        // Update gauge during takeoff
+        UpdateAirspeedGauge(currentSpeed);
 
         if (transform.position.y >= takeoffHeight)
         {
@@ -163,6 +211,9 @@ public class PlaneMovement : MonoBehaviour
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, 2f * Time.deltaTime);
         transform.position += transform.forward * currentSpeed * Time.deltaTime;
 
+        // Update gauge while flying
+        UpdateAirspeedGauge(currentSpeed);
+
         pitchVelocity += verticalInput * pitchSpeed * Time.deltaTime;
         pitchVelocity = Mathf.Lerp(pitchVelocity, 0f, 3f * Time.deltaTime);
         pitchAngle += pitchVelocity * Time.deltaTime;
@@ -175,7 +226,6 @@ public class PlaneMovement : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, rollAngleCurrent);
 
-        // Start dive
         if (energy <= 0f)
         {
             outOfEnergy = true;
@@ -187,25 +237,36 @@ public class PlaneMovement : MonoBehaviour
             if (disablePlaneColliderOnDive && planeCollider != null)
                 planeCollider.enabled = false;
 
-            EnableAndPlaceCrashTerrain();
+            EnableAndPlaceCrashGround();
         }
     }
 
     void HandleOutOfEnergyDive()
     {
+        // Rotate toward the dive pose
         pitchAngle = Mathf.MoveTowards(pitchAngle, outOfEnergyDivePitch, 80f * Time.deltaTime);
         rollAngleCurrent = Mathf.SmoothDamp(rollAngleCurrent, 0f, ref rollVelocity, 0.4f);
 
-        // Keep heading locked: NO circles
+        // Lock yaw so it doesn't keep steering
         yawAngle = lockedDiveYaw;
 
-        currentSpeed = Mathf.MoveTowards(currentSpeed, outOfEnergyForwardSpeed, 20f * Time.deltaTime);
-        transform.position += transform.forward * currentSpeed * Time.deltaTime;
-
+        // Apply rotation FIRST (so visuals match)
         transform.localRotation = Quaternion.Euler(pitchAngle, yawAngle, rollAngleCurrent);
 
+        // Ease toward a consistent forward speed
+        currentSpeed = Mathf.MoveTowards(currentSpeed, outOfEnergyForwardSpeed, 20f * Time.deltaTime);
+
+        // Update gauge during dive
+        UpdateAirspeedGauge(currentSpeed);
+
+        // ✅ MOVE: forward direction from yaw only (always glides forward)
+        Vector3 yawForward = Quaternion.Euler(0f, yawAngle, 0f) * Vector3.forward;
+
+        transform.position += yawForward * currentSpeed * Time.deltaTime;
+        transform.position += Vector3.down * (currentSpeed * diveDownMultiplier) * Time.deltaTime;
+
         if (followPlaneWhileDiving)
-            EnableAndPlaceCrashTerrain();
+            EnableAndPlaceCrashGround();
 
         if (transform.position.y <= crashStopY)
         {
@@ -213,28 +274,28 @@ public class PlaneMovement : MonoBehaviour
 
             currentSpeed = 0f;
             energyDraining = false;
+
+            // Snap gauge to 0 on crash
+            UpdateAirspeedGauge(0f);
+
             if (runUI) runUI.EndRun();
             enabled = false;
         }
     }
 
-    void EnableAndPlaceCrashTerrain()
+    void EnableAndPlaceCrashGround()
     {
-        if (crashTerrain == null || crashTerrain.terrainData == null) return;
+        if (crashGroundPlane == null) return;
 
-        if (!crashTerrain.gameObject.activeSelf)
-            crashTerrain.gameObject.SetActive(true);
+        if (!crashGroundPlane.activeSelf)
+            crashGroundPlane.SetActive(true);
 
-        Vector3 size = crashTerrain.terrainData.size;
+        Vector3 desiredCenter = transform.position + crashGroundOffset;
 
-        // We want the plane roughly centered on the terrain block.
-        Vector3 desiredCenter = transform.position + crashTerrainOffset;
-
-        // Terrain position is its bottom-left corner, so subtract half size.
-        crashTerrain.transform.position = new Vector3(
-            desiredCenter.x - size.x * 0.5f,
-            crashTerrainY,
-            desiredCenter.z - size.z * 0.5f
+        crashGroundPlane.transform.position = new Vector3(
+            desiredCenter.x,
+            crashGroundY,
+            desiredCenter.z
         );
     }
 
@@ -245,5 +306,17 @@ public class PlaneMovement : MonoBehaviour
             energy += rechargeAmount;
             energy = Mathf.Clamp(energy, 0f, maxEnergy);
         }
+    }
+
+    // ---------- Gauge Helpers ----------
+    void UpdateAirspeedGauge(float speedUnitsPerSecond)
+    {
+        if (airspeedGauge == null) return;
+
+        // Map your in-game speed (minFlySpeed..maxFlySpeed) into the gauge range (0..gaugeMaxKnots).
+        float t = Mathf.InverseLerp(minFlySpeed, maxFlySpeed, speedUnitsPerSecond);
+        float knots = Mathf.Lerp(0f, gaugeMaxKnots, t);
+
+        airspeedGauge.SetSpeedKnots(knots);
     }
 }
