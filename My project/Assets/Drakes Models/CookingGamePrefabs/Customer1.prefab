@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &477676356237418063
+--- !u!1 &1827609445725360613
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4084236470263795884}
-  - component: {fileID: 4182704742141657829}
+  - component: {fileID: 5702380111219007917}
+  - component: {fileID: 6457177225602954838}
   m_Layer: 0
-  m_Name: Bar
+  m_Name: HappinessBar (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4084236470263795884
+--- !u!4 &5702380111219007917
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477676356237418063}
+  m_GameObject: {fileID: 1827609445725360613}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.47, z: 0}
-  m_LocalScale: {x: 0.013583946, y: 0.09431713, z: 0.018888}
+  m_LocalPosition: {x: -0.14864302, y: 1.3735307, z: 0}
+  m_LocalScale: {x: 0.6818, y: 0.8741196, z: 0.6818}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7009856829389798442}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4182704742141657829
+--- !u!212 &6457177225602954838
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 477676356237418063}
+  m_GameObject: {fileID: 1827609445725360613}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -78,13 +78,13 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0d460dc766d7d45479d9982689859802, type: 3}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 668ed67db19fb9e44a54b5aab5725cd7, type: 3}
+  m_Color: {r: 0.025627613, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.6, y: 0.6}
+  m_Size: {x: 24.800001, y: 24.800001}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -115,12 +115,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2480867612089844694}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.965, y: 0.486, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.97, y: -0.04, z: 5}
+  m_LocalScale: {x: 0.033638407, y: 0.04732332, z: 0.05424499}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4084236470263795884}
+  - {fileID: 5702380111219007917}
   m_Father: {fileID: 8259083392172152698}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5674994871456589433
@@ -169,13 +169,13 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 753d5cd48bfb0024cbc0e538c395e2e3, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 668ed67db19fb9e44a54b5aab5725cd7, type: 3}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.0666667, y: 1.0666667}
+  m_Size: {x: 24.800001, y: 24.800001}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -445,10 +445,7 @@ MonoBehaviour:
   cheeseSprite: {fileID: -1425021232, guid: 8d33cd4dfa923a1479506eb80d9dc95e, type: 3}
   topBunSprite: {fileID: -1111724265, guid: 26f713a51848db4408695dcd970852c8, type: 3}
   bottomBunSprite: {fileID: -268641360, guid: 7550ad4b64ff6ab43a3ad2da25849669, type: 3}
-  happyFace: {fileID: 21300000, guid: c642ad174e85c7a47b7bc80edea224cc, type: 3}
-  mediumFace: {fileID: 21300000, guid: f16301067982be04daf5b8f1240dc5dc, type: 3}
-  madFace: {fileID: 21300000, guid: a449b485d66395c40a80c8b5928018aa, type: 3}
-  happinessBar: {fileID: 477676356237418063}
+  happinessBar: {fileID: 1827609445725360613}
   textBubble: {fileID: 5792788408388472246}
   customer: {fileID: 5451801883065317478}
   starAnimate: {fileID: 0}

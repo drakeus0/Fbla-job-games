@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,474 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: manshirtcolorblue_0
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 1878
+        width: 119
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6af0cd8692eb7646bdba3924308a6e3
+      internalID: -1362800657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_1
+      rect:
+        serializedVersion: 2
+        x: 636
+        y: 1836
+        width: 15
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75b6ea59844c7a445ab6191476403d1d
+      internalID: 296781213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_2
+      rect:
+        serializedVersion: 2
+        x: 1294
+        y: 1865
+        width: 83
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 205f6bef509380e4389ef0e44be1cce4
+      internalID: 1582633444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_3
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 1836
+        width: 15
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf9d7748fcc084c49b8a0b0edc6c6ec9
+      internalID: -248319816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_4
+      rect:
+        serializedVersion: 2
+        x: 1117
+        y: 1517
+        width: 282
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab548719e10077046b99c3e3788ae450
+      internalID: 1668811461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1117
+        width: 258
+        height: 697
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30c54e3e7a28280438b26b6a0246af90
+      internalID: 174267399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_6
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 1791
+        width: 47
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6ea152703fc3cf4baa61c4a1f6ea546
+      internalID: 347545479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_7
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 1136
+        width: 560
+        height: 333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fbcc855c019dbc43bbcbcc6232179df
+      internalID: 268822423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_8
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 1289
+        width: 253
+        height: 258
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f03014965e73db341aeaca7cfb251db7
+      internalID: -109548612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_9
+      rect:
+        serializedVersion: 2
+        x: 1106
+        y: 1296
+        width: 214
+        height: 235
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffc951c5335d8ce44b3a5176b1080a5d
+      internalID: 177938559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_10
+      rect:
+        serializedVersion: 2
+        x: 1384
+        y: 927
+        width: 283
+        height: 601
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 984489a4c239aaa4d94f74f3c886a0bb
+      internalID: 270322740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_11
+      rect:
+        serializedVersion: 2
+        x: 1672
+        y: 1249
+        width: 206
+        height: 278
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbe365a3306e52b41943392f2ab1565e
+      internalID: 1100249224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_12
+      rect:
+        serializedVersion: 2
+        x: 1925
+        y: 1297
+        width: 8
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41bccaaee716036489f0f2870a6ff4ac
+      internalID: 1258961922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_13
+      rect:
+        serializedVersion: 2
+        x: 1661
+        y: 903
+        width: 387
+        height: 330
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5e1144d19bcaac429bab9d619461abf
+      internalID: -1299258316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 713
+        height: 806
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 777e1f0d974d31c41b974468f99ab4ac
+      internalID: -1218069088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_15
+      rect:
+        serializedVersion: 2
+        x: 1623
+        y: 801
+        width: 85
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c1555f9589c3804683112943a58f2e2
+      internalID: -1594166109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_16
+      rect:
+        serializedVersion: 2
+        x: 1721
+        y: 805
+        width: 80
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af538dc62ed51474ebe7a9554ff2616f
+      internalID: -1554292958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_17
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 0
+        width: 728
+        height: 701
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b275c38f9747f1f4aa5a963e732d65b7
+      internalID: -1281067309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_18
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 399
+        width: 212
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc8e0a17422d10640bd05adbcd6b0f70
+      internalID: 1554230803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_19
+      rect:
+        serializedVersion: 2
+        x: 1905
+        y: 401
+        width: 35
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b278f506ede700f47afa71b863dd99ad
+      internalID: -1745391900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: manshirtcolorblue_20
+      rect:
+        serializedVersion: 2
+        x: 1901
+        y: 13
+        width: 55
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3703a99861237cf4ab916b34e5f12458
+      internalID: -922902827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +570,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      manshirtcolorblue_0: -1362800657
+      manshirtcolorblue_1: 296781213
+      manshirtcolorblue_10: 270322740
+      manshirtcolorblue_11: 1100249224
+      manshirtcolorblue_12: 1258961922
+      manshirtcolorblue_13: -1299258316
+      manshirtcolorblue_14: -1218069088
+      manshirtcolorblue_15: -1594166109
+      manshirtcolorblue_16: -1554292958
+      manshirtcolorblue_17: -1281067309
+      manshirtcolorblue_18: 1554230803
+      manshirtcolorblue_19: -1745391900
+      manshirtcolorblue_2: 1582633444
+      manshirtcolorblue_20: -922902827
+      manshirtcolorblue_3: -248319816
+      manshirtcolorblue_4: 1668811461
+      manshirtcolorblue_5: 174267399
+      manshirtcolorblue_6: 347545479
+      manshirtcolorblue_7: 268822423
+      manshirtcolorblue_8: -109548612
+      manshirtcolorblue_9: 177938559
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
