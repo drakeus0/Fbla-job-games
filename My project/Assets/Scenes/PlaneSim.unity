@@ -5761,8 +5761,8 @@ MonoBehaviour:
   needle: {fileID: 1925858672}
   minKnots: 0
   maxKnots: 200
-  minAngle: -130
-  maxAngle: 130
+  minAngle: 0
+  maxAngle: -295
   smoothSpeed: 10
 --- !u!114 &281484840
 MonoBehaviour:
@@ -45478,6 +45478,7 @@ MonoBehaviour:
   flightControlsPrompt: {fileID: 1074935281}
   flightPromptDuration: 5
   airspeedGauge: {fileID: 281484839}
+  gaugeMaxKnots: 200
   yawSpeed: 90
   pitchSpeed: 70
   rollAngle: 35
