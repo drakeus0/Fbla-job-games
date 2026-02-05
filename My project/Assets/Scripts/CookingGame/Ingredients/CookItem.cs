@@ -8,6 +8,7 @@ public class CookItem : MonoBehaviour
 
     private CookableIngredient currentItem;
     public bool cooking;
+    public Transform CookPoint;
 
     private void Update()
     {

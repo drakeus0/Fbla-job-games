@@ -15,10 +15,6 @@ public class SpawnCustomer : MonoBehaviour
     [SerializeField] Sprite topBunSprite;
     [SerializeField] Sprite bottomBunSprite;
 
-    [SerializeField] Sprite happyFace;
-    [SerializeField] Sprite mediumFace;
-    [SerializeField] Sprite madFace;
-
     [SerializeField] GameObject happinessBar;
     private Vector3 happinessBarOriginalScale;
 
@@ -260,32 +256,31 @@ customer.GetComponent<SpriteRenderer>().sprite = peopleSprites[currentCustomerSp
 
 
 
+    private Tween moveTween;
+
     public void RemoveAndShowCustomer(bool active)
     {
-        // Ensure the customer is active so it can move
         customer.SetActive(true);
 
-        // Kill any previous tweens on the customer
-        customer.transform.DOKill();
-        Vector3 startPos = customerStartPosition; // Assign this at initialization
-        float exitDistance = 5f; // How far he moves down when exiting
+        moveTween?.Kill(); // Kill only previous move tween
+
+        Vector3 startPos = customerStartPosition;
+        float exitDistance = 5f;
 
         if (active)
         {
-            // Start below the start position
             int randomCustomerNumber = Random.Range(0, peopleSprites.Count);
-            PersonData customerChosen = peopleSprites[randomCustomerNumber];
             currentCustomerSprite = randomCustomerNumber;
-            customer.GetComponent<SpriteRenderer>().sprite = customerChosen.faces[1];
+            SpriteRenderer sr = customer.GetComponent<SpriteRenderer>();
+            sr.sprite = peopleSprites[randomCustomerNumber].faces[1];
+            sr.enabled = true; // make sure renderer is active
 
             customer.transform.position = startPos - Vector3.up * exitDistance;
 
-            // Move up to start position
-            customer.transform.DOMove(startPos, 0.5f)
+            moveTween = customer.transform.DOMove(startPos, 0.5f)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {
-                    // Trigger speech bubble and bar after reaching start position
                     SpawnSpeachBubble();
                     AnimateBar();
                 });
@@ -294,14 +289,14 @@ customer.GetComponent<SpriteRenderer>().sprite = peopleSprites[currentCustomerSp
         }
         else
         {
-            // Move customer down by exitDistance
             Vector3 targetPos = customer.transform.position - Vector3.up * exitDistance;
 
-            customer.transform.DOMove(targetPos, 0.5f)
-                .SetEase(Ease.OutBack)
+            moveTween = customer.transform.DOMove(targetPos, 0.5f)
+                .SetEase(Ease.InBack)
                 .OnComplete(() =>
                 {
                     customer.SetActive(false);
+                    Debug.Log("Despawned");
                 });
 
             customerActive = false;

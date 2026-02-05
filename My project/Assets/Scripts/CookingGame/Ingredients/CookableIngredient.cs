@@ -1,21 +1,19 @@
 using UnityEngine;
-using System;
 
 public class CookableIngredient : MonoBehaviour
 {
     private Rigidbody rb;
     private DraggableIngredientt draggable;
 
-    private bool touchingStove;
-    private Vector3 cookSpotPos;
-    private CookItem stove;
-
+    private CookItem currentStove;
     private bool isCooking;
 
     public CookState cookState = CookState.Raw;
-    public float cookTimer = 0f;
+    public float cookTimer;
 
-    [SerializeField] private float knockOffForce = 2.5f;
+    [SerializeField] private Collider triggerCollider; // assign the trigger child here
+
+    [SerializeField] private float knockOffImpulse = 2.5f;
 
     private void Awake()
     {
@@ -25,8 +23,7 @@ public class CookableIngredient : MonoBehaviour
 
     private void OnEnable()
     {
-        if (draggable == null)
-            return;
+        if (draggable == null) return;
 
         draggable.Dropped += OnDropped;
         draggable.PickedUp += OnPickedUp;
@@ -34,8 +31,7 @@ public class CookableIngredient : MonoBehaviour
 
     private void OnDisable()
     {
-        if (draggable == null)
-            return;
+        if (draggable == null) return;
 
         draggable.Dropped -= OnDropped;
         draggable.PickedUp -= OnPickedUp;
@@ -46,83 +42,70 @@ public class CookableIngredient : MonoBehaviour
         if (!isCooking)
             return;
 
-        // Player intentionally removed it
-        isCooking = false;
-
-        if (stove != null)
-            stove.StopCooking();
-
-        rb.isKinematic = false;
-        rb.useGravity = true;
-
-        stove = null;
+        StopCookingInternal();
     }
 
     private void OnDropped()
     {
-        Debug.Log(touchingStove);
-        if (!touchingStove || stove == null || stove.cooking)
+        if (currentStove == null || currentStove.cooking)
             return;
 
-        // Lock to stove
+        StartCookingInternal();
+    }
+
+    private void StartCookingInternal()
+    {
+        isCooking = true;
+
+        // Lock physics cleanly
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.useGravity = false;
-        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
 
-        transform.position = cookSpotPos;
+        // Snap to cook point
+        transform.position = currentStove.CookPoint.position;
+        transform.rotation = currentStove.CookPoint.rotation;
 
-        stove.CookFood(this);
-        isCooking = true;
+        currentStove.CookFood(this);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void StopCookingInternal()
+    {
+        isCooking = false;
+
+        if (currentStove != null)
+            currentStove.StopCooking();
+
+        rb.constraints = RigidbodyConstraints.None;
+        rb.useGravity = true;
+
+        currentStove = null;
+    }
+
+    public void KnockOffStove(Vector3 forceDirection)
     {
         if (!isCooking)
             return;
 
-        if (collision.relativeVelocity.magnitude >= knockOffForce)
-        {
-            KnockOffStove();
-        }
-    }
-
-    private void KnockOffStove()
-    {
-        isCooking = false;
-
-        if (stove != null)
-            stove.StopCooking();
-
-        rb.isKinematic = false;
-        rb.useGravity = true;
-
-        stove = null;
+        StopCookingInternal();
+        rb.AddForce(forceDirection * knockOffImpulse, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("CookingGameStove"))
-            return;
-
-        CookItem cookItem = other.GetComponent<CookItem>();
-        if (cookItem != null && !cookItem.cooking)
-        {
-            Debug.Log("TOUCHING STOVE");
-            stove = cookItem;
-            cookSpotPos = other.transform.position;
-            touchingStove = true;
-        }
+        // Only care if the collision is from our trigger collide
+        if (!other.CompareTag("CookingGameStove")) return;
+        Debug.Log("Touching stove");
+        currentStove = other.GetComponent<CookItem>();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("CookingGameStove"))
-            return;
-        Debug.Log("STOPPED TOUCHING STOVE");
-        touchingStove = false;
-
-        if (!isCooking)
-            stove = null;
+        if (!other.CompareTag("CookingGameStove")) return;
+        Debug.Log("NOT Touching stove");
+        CookItem stove = other.GetComponent<CookItem>();
+        if (stove == currentStove) currentStove = null;
     }
+
 }

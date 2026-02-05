@@ -215,7 +215,7 @@ public class DraggableIngredientt : MonoBehaviour
         UpdateHostRecursive(childStack.transform, finalHost);
 
         // Update layers recursively based on stack order
-        UpdateLayerRecursive(finalHost.transform, 2); 
+        //UpdateLayerRecursive(finalHost.transform, 2); 
 
         // Stick the child stack
         DraggableIngredientt childStackScript = childStack.GetComponent<DraggableIngredientt>();
