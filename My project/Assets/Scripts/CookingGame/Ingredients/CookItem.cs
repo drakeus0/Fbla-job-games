@@ -14,7 +14,7 @@ public class CookItem : MonoBehaviour
     {
         if (!cooking || currentItem == null)
             return;
-
+        Debug.Log("Cooking");
         currentItem.cookTimer += Time.deltaTime;
 
         if (currentItem.cookTimer >= cookDuration * 2f)
