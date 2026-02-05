@@ -77,7 +77,9 @@ public class CookableIngredient : MonoBehaviour
         if (currentStove != null)
             currentStove.StopCooking();
 
-        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
+        rb.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
         rb.useGravity = true;
 
         currentStove = null;
