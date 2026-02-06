@@ -2,32 +2,38 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using DG.Tweening;
 
 public class HideUIAfterTime : MonoBehaviour
 {
     public float delaySeconds = 10f;
+    public float shrinkDuration = 0.5f; // time to shrink
 
     [Header("Text")]
-    public TextMeshProUGUI text1;
-    public TextMeshProUGUI text2;
+    [SerializeField] private TextMeshProUGUI text1;
 
     [Header("Background Images")]
-    public Image background1;
-    public Image background2;
+    [SerializeField] private Image background1;
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(HideRoutine());
     }
 
-    IEnumerator HideRoutine()
+    private IEnumerator HideRoutine()
     {
         yield return new WaitForSeconds(delaySeconds);
 
-        if (text1) text1.gameObject.SetActive(false);
-        if (text2) text2.gameObject.SetActive(false);
+        if (text1)
+            ShrinkAndDisable(text1.gameObject);
 
-        if (background1) background1.gameObject.SetActive(false);
-        if (background2) background2.gameObject.SetActive(false);
+        if (background1)
+            ShrinkAndDisable(background1.gameObject);
+    }
+
+    private void ShrinkAndDisable(GameObject obj)
+    {
+        obj.transform.DOScale(Vector3.zero, shrinkDuration).SetEase(Ease.InBack)
+            .OnComplete(() => obj.SetActive(false));
     }
 }
