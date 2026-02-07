@@ -57,6 +57,7 @@ public class ChangeCharacter : MonoBehaviour
 
         // Activate the selected one
         hairsParent.GetChild(index).gameObject.SetActive(true);
+        Debug.Log("changed hair");
     }
 
     // --- Hair Color ---
