@@ -26,6 +26,7 @@ public class Pickup_dropoff : MonoBehaviour
     public void Start()
     {
         starScript = FindFirstObjectByType<StarAnimate>();
+        if (GameSettings.presentMode) amountOfPackages = 2;
     }
 
     private void Update()

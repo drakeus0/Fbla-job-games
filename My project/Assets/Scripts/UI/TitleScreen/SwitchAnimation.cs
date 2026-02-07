@@ -17,18 +17,24 @@ public class SwitchAnimation : MonoBehaviour
     [SerializeField] Vector2 thumbOffPosition;
     [SerializeField] float animationDuration = 0.25f;
 
-    private bool isOn = false;
+    [SerializeField] bool startOn;
+
+    private bool isOn;
 
     void Start()
     {
         // Initialize UI
-        UpdateSwitchUI(true, instant: false);
+        UpdateSwitchUI(startOn, instant: !startOn);
     }
 
-    public void ToggleSwitch()
+    public void ToggleSwitch(string setting)
     {
         isOn = !isOn;
         UpdateSwitchUI(isOn);
+
+        if (setting == "PresentationMode") GameSettings.presentMode = isOn;
+        if (setting == "Music") GameSettings.musicEnabled = isOn;
+        Debug.Log(GameSettings.presentMode = isOn);
     }
 
     private void UpdateSwitchUI(bool turnOn, bool instant = false)

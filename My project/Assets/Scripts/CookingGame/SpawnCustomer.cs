@@ -72,6 +72,8 @@ public class SpawnCustomer : MonoBehaviour
             { topBunSprite, IngredientType.TopBun },
             { bottomBunSprite, IngredientType.BottomBun }
         };
+
+        if (GameSettings.presentMode) customerServeAmount = 2f;
     }
 
     void Update()
