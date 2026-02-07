@@ -15,6 +15,8 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject titleScreenCanvas;
     [SerializeField] GameObject Buttons;
     [SerializeField] Image blackCover; 
+    [SerializeField] GameObject secondTutorial;
+    [SerializeField] GameObject characterChanger;
 
     [Header("Game Setup")]
     [SerializeField] Camera titleScreenCam;
@@ -59,8 +61,11 @@ public class TitleScreenManager : MonoBehaviour
             titleScreenCam.gameObject.SetActive(false);
             PlayerCam.gameObject.SetActive(true);
             Player.SetActive(true);
-            titleScreenCanvas.SetActive(false);
-            this.enabled = false;
+            Buttons.SetActive(false);
+            characterChanger.SetActive(false);
+            secondTutorial.SetActive(true);
+
+            //this.enabled = false;
         }
     }
 

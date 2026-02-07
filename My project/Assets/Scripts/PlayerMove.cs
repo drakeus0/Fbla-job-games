@@ -23,6 +23,7 @@ public class TopDownPlayerMove : MonoBehaviour
 
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        if (GameSettings.presentMode) moveSpeed = 20f;
     }
 
     void Update()
