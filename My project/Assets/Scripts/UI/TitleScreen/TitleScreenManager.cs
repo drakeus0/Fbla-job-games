@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class TitleScreenManager : MonoBehaviour
 {
     private static bool titleScreenOpened = false;
+    private static bool secondTitleScreenOpened = false;
 
     [Header("UI Game Objects")]
 
@@ -32,7 +33,7 @@ public class TitleScreenManager : MonoBehaviour
     private RectTransform creditsRect;
     private RectTransform settingsRect;
     private Vector3 creditNormalScale;
-    private Vector3 settingsNormalScale;
+    private Vector3 settingsNormalScale; 
 
     void Start()
     {
@@ -63,7 +64,11 @@ public class TitleScreenManager : MonoBehaviour
             Player.SetActive(true);
             Buttons.SetActive(false);
             characterChanger.SetActive(false);
-            secondTutorial.SetActive(true);
+            if (!secondTitleScreenOpened)
+            {
+                secondTutorial.SetActive(true);
+                secondTitleScreenOpened = true;   
+            }
 
             //this.enabled = false;
         }
