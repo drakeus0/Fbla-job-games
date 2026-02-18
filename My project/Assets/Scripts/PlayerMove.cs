@@ -17,10 +17,14 @@ public class TopDownPlayerMove : MonoBehaviour
     //animator
     private Animator animator;
 
+    [SerializeField] private bool tutorial;
+
     void Awake()
     {
-        MainGameData.Initialize(transform);
-
+        if (!tutorial)
+        {
+            MainGameData.Initialize(transform);   
+        }
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         if (GameSettings.presentMode) moveSpeed = 20f;

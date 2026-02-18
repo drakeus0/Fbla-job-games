@@ -10,9 +10,13 @@ public static class MainGameData
     {
         if (!initialized)
         {
+            Debug.Log("ran");
             playerReturnPos = playerTransform.position;
             initialized = true;
-            Debug.Log(playerReturnPos);
+        }
+        if (initialized)
+        {
+            playerTransform.position = playerReturnPos;
         }
     }
 }
