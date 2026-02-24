@@ -19,4 +19,8 @@ public static class MainGameData
             playerTransform.position = playerReturnPos;
         }
     }
+
+    public static int PilotHighScore = 0;
+    public static int ChefHighScore = 0;
+    public static int DeliveryHighScore = 0;
 }

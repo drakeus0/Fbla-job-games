@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using NUnit.Framework;
 
 public class SwitchAnimation : MonoBehaviour
 {
@@ -17,24 +18,38 @@ public class SwitchAnimation : MonoBehaviour
     [SerializeField] Vector2 thumbOffPosition;
     [SerializeField] float animationDuration = 0.25f;
 
-    [SerializeField] bool startOn;
+    [SerializeField] private SettingOption setting;
 
     private bool isOn;
 
     void Start()
     {
-        // Initialize UI
-        UpdateSwitchUI(startOn, instant: !startOn);
+
+            switch (setting)
+            {
+                case SettingOption.musicEnabled:
+                    isOn = GameSettings.musicEnabled;
+                    break;
+                case SettingOption.presentMode:
+                    isOn = GameSettings.presentMode;
+                    break;
+                default:
+                    isOn = true; 
+                    break;
+            }
+
+            // Update the UI instantly so it matches the state
+            UpdateSwitchUI(isOn, instant: true);
+   
     }
 
-    public void ToggleSwitch(string setting)
+    public void ToggleSwitch()
     {
         isOn = !isOn;
         UpdateSwitchUI(isOn);
 
-        if (setting == "PresentationMode") GameSettings.presentMode = isOn;
-        if (setting == "Music") GameSettings.musicEnabled = isOn;
-        Debug.Log(GameSettings.presentMode = isOn);
+        if (setting == SettingOption.presentMode) GameSettings.presentMode = isOn;
+        if (setting == SettingOption.musicEnabled) GameSettings.musicEnabled = isOn;
     }
 
     private void UpdateSwitchUI(bool turnOn, bool instant = false)
@@ -42,12 +57,12 @@ public class SwitchAnimation : MonoBehaviour
         if (instant)
             switchBackground.color = turnOn ? onColor : offColor;
         else
-            switchBackground.DOColor(turnOn ? onColor : offColor, animationDuration);
+            switchBackground.DOColor(turnOn ? onColor : offColor, animationDuration).SetUpdate(true);
 
         if (instant)
             switchThumb.anchoredPosition = turnOn ? thumbOnPosition : thumbOffPosition;
         else
-            switchThumb.DOAnchorPos(turnOn ? thumbOnPosition : thumbOffPosition, animationDuration).SetEase(Ease.InOutQuad);
+            switchThumb.DOAnchorPos(turnOn ? thumbOnPosition : thumbOffPosition, animationDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
 
         switchText.text = turnOn ? "ON" : "OFF";
     }

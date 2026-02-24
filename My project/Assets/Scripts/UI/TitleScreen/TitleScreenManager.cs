@@ -102,7 +102,8 @@ public class TitleScreenManager : MonoBehaviour
         settingsRect.localScale = settingsNormalScale * closedScale;
         settingsRect
             .DOScale(settingsNormalScale, popDuration)
-            .SetEase(openEase);
+            .SetEase(openEase)
+            .SetUpdate(true);
     }
 
     public void CloseSettings()
@@ -110,6 +111,7 @@ public class TitleScreenManager : MonoBehaviour
         settingsRect
             .DOScale(settingsNormalScale * closedScale, popDuration)
             .SetEase(closeEase)
+            .SetUpdate(true)
             .OnComplete(() =>
             {
                 settingsPopup.SetActive(false);
