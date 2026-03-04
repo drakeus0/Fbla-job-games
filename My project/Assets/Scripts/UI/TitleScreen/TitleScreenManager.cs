@@ -19,6 +19,8 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject secondTutorial;
     [SerializeField] GameObject characterChanger;
 
+    [SerializeField] GameObject EscToPause;
+
     [Header("Game Setup")]
     [SerializeField] Camera titleScreenCam;
     [SerializeField] Camera PlayerCam;
@@ -64,6 +66,7 @@ public class TitleScreenManager : MonoBehaviour
             Player.SetActive(true);
             Buttons.SetActive(false);
             characterChanger.SetActive(false);
+            EscToPause.SetActive(true);
             if (!secondTitleScreenOpened)
             {
                 secondTutorial.SetActive(true);
