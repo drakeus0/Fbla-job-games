@@ -94,6 +94,7 @@ public class Pause : MonoBehaviour
 
     public void QuitJob()
     {
+        FreezeUnfreeze(false);
          SceneManager.LoadScene("MainGame");
     }
 
