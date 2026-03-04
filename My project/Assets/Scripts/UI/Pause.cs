@@ -1,6 +1,8 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class Pause : MonoBehaviour
 {
@@ -8,9 +10,13 @@ public class Pause : MonoBehaviour
 
     [SerializeField] private GameObject titleScreen;
 
+    [SerializeField] private GameObject quitJobButton;
+
     [SerializeField] GameObject settingsPopup;
     private RectTransform settingsRect;
     private Vector3 settingsNormalScale;
+
+    [SerializeField] private bool isMiniGame;
 
     private void Start()
     {
@@ -19,6 +25,10 @@ public class Pause : MonoBehaviour
 
         settingsPopup.SetActive(false);
         settingsRect.localScale = settingsNormalScale * .6f;
+
+        if (isMiniGame) {
+            quitJobButton.SetActive(true);
+        }
     }
 
 
@@ -80,6 +90,11 @@ public class Pause : MonoBehaviour
             {
                 settingsPopup.SetActive(false);
             });
+    }
+
+    public void QuitJob()
+    {
+         SceneManager.LoadScene("MainGame");
     }
 
     public void QuitGame()
