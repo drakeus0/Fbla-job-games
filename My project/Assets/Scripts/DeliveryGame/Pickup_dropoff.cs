@@ -21,12 +21,11 @@ public class Pickup_dropoff : MonoBehaviour
     bool deliveryStatus = false;
     float deliveryTimer = 0f;
 
-    StarAnimate starScript;
+    [SerializeField] StarAnimate starScript;
 
     public void Start()
     {
-        starScript = FindFirstObjectByType<StarAnimate>();
-        if (GameSettings.presentMode) amountOfPackages = 2;
+        if (GameSettings.presentMode) amountOfPackages = 1;
     }
 
     private void Update()
@@ -44,6 +43,7 @@ public class Pickup_dropoff : MonoBehaviour
                     (deliveryTimer <= 150f) ? 1 : 0;
             starScript.ShowUI(stars);
             if (stars > MainGameData.DeliveryHighScore) MainGameData.DeliveryHighScore = (int)stars;
+            this.enabled = false;
         }
     }
 

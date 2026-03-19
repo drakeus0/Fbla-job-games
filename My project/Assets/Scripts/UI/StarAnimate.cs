@@ -81,6 +81,7 @@ public class StarAnimate : MonoBehaviour
         panel.DOScale(panelOriginalScale, popDuration).SetEase(Ease.OutBack)
              .OnComplete(() =>
              {
+                 Debug.Log("panel sizing ended" + panel.localScale);
                  StartCoroutine(PopStars(starsEarned));
              });
     }

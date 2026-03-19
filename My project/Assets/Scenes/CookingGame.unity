@@ -6425,7 +6425,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 896565878961593268, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1453178112245619061, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_LocalScale.x
@@ -6678,11 +6678,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6217512398522169699, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274470033623426276, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465934226897226314, guid: 119ecd9fedb572642af6543d104c659f, type: 3}
       propertyPath: m_Name
@@ -6837,7 +6837,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.75
+  m_fontSize: 41.5
   m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 1
