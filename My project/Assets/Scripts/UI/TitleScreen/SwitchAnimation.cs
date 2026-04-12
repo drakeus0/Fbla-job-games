@@ -18,6 +18,8 @@ public class SwitchAnimation : MonoBehaviour
     [SerializeField] Vector2 thumbOffPosition;
     [SerializeField] float animationDuration = 0.25f;
 
+    [SerializeField] GameObject presentationModeTeleportButtons;
+
     [SerializeField] private SettingOption setting;
 
     private bool isOn;
@@ -48,7 +50,11 @@ public class SwitchAnimation : MonoBehaviour
         isOn = !isOn;
         UpdateSwitchUI(isOn);
 
-        if (setting == SettingOption.presentMode) GameSettings.presentMode = isOn;
+        if (setting == SettingOption.presentMode)
+        {
+            GameSettings.presentMode = isOn;
+            UpdatePresentationModeUI(isOn);
+        }
         if (setting == SettingOption.musicEnabled) GameSettings.musicEnabled = isOn;
     }
 
@@ -65,5 +71,10 @@ public class SwitchAnimation : MonoBehaviour
             switchThumb.DOAnchorPos(turnOn ? thumbOnPosition : thumbOffPosition, animationDuration).SetEase(Ease.InOutQuad).SetUpdate(true);
 
         switchText.text = turnOn ? "ON" : "OFF";
+    }
+
+    private void UpdatePresentationModeUI(bool on)
+    {
+        presentationModeTeleportButtons.SetActive(on);
     }
 }

@@ -32,6 +32,8 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] Ease openEase = Ease.OutCubic;
     [SerializeField] Ease closeEase = Ease.InCubic;
 
+    [SerializeField] GameObject PresentModebuttons;
+
     private RectTransform creditsRect;
     private RectTransform settingsRect;
     private Vector3 creditNormalScale;
@@ -39,6 +41,10 @@ public class TitleScreenManager : MonoBehaviour
 
     void Start()
     {
+        if (GameSettings.presentMode)
+        {
+            PresentModebuttons.SetActive(true);
+        }
         Player.SetActive(false);
 
         creditsRect = creditsPopup.GetComponent<RectTransform>();

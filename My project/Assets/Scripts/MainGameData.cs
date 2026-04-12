@@ -23,4 +23,8 @@ public static class MainGameData
     public static int PilotHighScore = 0;
     public static int ChefHighScore = 0;
     public static int DeliveryHighScore = 0;
+
+    public static bool PilotCompleted = false;
+    public static bool ChefCompleted = false;
+    public static bool DeliveryCompleted = false;
 }

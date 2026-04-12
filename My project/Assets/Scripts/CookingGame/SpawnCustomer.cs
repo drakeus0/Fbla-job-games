@@ -212,6 +212,7 @@ customer.GetComponent<SpriteRenderer>().sprite = peopleSprites[currentCustomerSp
 
                 starAnimate.ShowUI(stars);
                 if (stars > MainGameData.ChefHighScore) MainGameData.ChefHighScore = (int)stars;
+                MainGameData.ChefCompleted = true;
             }
             DOVirtual.DelayedCall(1f, () => RemoveAndShowCustomer(false));
 

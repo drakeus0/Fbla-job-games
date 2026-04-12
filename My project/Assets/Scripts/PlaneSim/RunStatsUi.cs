@@ -57,6 +57,8 @@ public class RunStatsUI : MonoBehaviour
 
         if (starAnimate)
             starAnimate.ShowUI(stars);
+        if (stars > MainGameData.PilotHighScore) MainGameData.PilotHighScore = (int)stars;
+        MainGameData.PilotCompleted = true;
     }
 
     int CalculateStars(float t)

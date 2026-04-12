@@ -43,6 +43,7 @@ public class Pickup_dropoff : MonoBehaviour
                     (deliveryTimer <= 150f) ? 1 : 0;
             starScript.ShowUI(stars);
             if (stars > MainGameData.DeliveryHighScore) MainGameData.DeliveryHighScore = (int)stars;
+            MainGameData.DeliveryCompleted = true;
             this.enabled = false;
         }
     }
